@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  python-tina:
+    build: .
+    volumes:
+      - /mnt/f/bi-portfolio/:/home/workspace
+    ports:
+      - "8008:8000"
+    container_name: python-Dj-tina
+    restart: always
+    working_dir: /home/workspace
