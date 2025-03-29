@@ -1,0 +1,11 @@
+version: '3'
+services:
+  jupyter:
+    image: python-jupiter
+    restart: unless-stopped
+    ports:
+      - "8886:8888"
+    volumes:
+      - /mnt/d/bi-portfolio/local-docker/jupiter-notebook/notebooks:/app/notebooks
+    environment:
+      - JUPYTER_TOKEN=mytoken

@@ -1,0 +1,8 @@
+jupyterlab
+notebook  # Required for notebook configuration
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+
