@@ -4,7 +4,7 @@ services:
   python-tina:
     build: .
     volumes:
-      - /mnt/f/bi-portfolio/:/home/workspace
+      - /mnt/d/bi-portfolio/:/home/workspace
     ports:
       - "8008:8000"
     container_name: python-Dj-tina
