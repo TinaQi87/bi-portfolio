@@ -1,0 +1,13 @@
+version: '3'
+services:
+  rstudio:
+    image: tina-rstudio
+    container_name: rstudio
+    restart: unless-stopped
+    ports:
+      - "8787:8787"
+      - "3838:3838"
+    environment:
+      - PASSWORD=zhb198691
+    volumes:
+      - /mnt/d/bi-portfolio/local-docker/rstudio/data:/home/rstudio
