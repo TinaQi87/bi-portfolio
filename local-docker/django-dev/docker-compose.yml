@@ -7,6 +7,6 @@ services:
       - /mnt/d/bi-portfolio/:/home/workspace
     ports:
       - "8008:8000"
-    container_name: python-Dj-tina
+    container_name: tina-django
     restart: always
     working_dir: /home/workspace

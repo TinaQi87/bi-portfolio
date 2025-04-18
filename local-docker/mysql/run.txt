@@ -1,0 +1,10 @@
+docker run -d \
+  --name mysql-container \
+  --restart unless-stopped \
+  -p 3306:3306 \
+  -v ~/docker-volumes/mysql-data:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=zhb198691 \
+  -e MYSQL_DATABASE=my1stdatabase \
+  -e MYSQL_USER=tina \
+  -e MYSQL_PASSWORD=zhb198691 \
+  tina-mysql
