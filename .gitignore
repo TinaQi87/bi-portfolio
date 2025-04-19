@@ -1,0 +1,30 @@
+# ── Terraform build directories ────────────────────────────────────────────────
+**/.terraform/*
+
+# ── Terraform state ────────────────────────────────────────────────────────────
+# local state files
+*.tfstate
+*.tfstate.*
+# crash logs
+crash.log
+
+# ── Override and variable files ───────────────────────────────────────────────
+# override files are usually local-only
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+# .tfvars often contain secrets—don't commit them
+*.tfvars
+
+# ── CLI config ────────────────────────────────────────────────────────────────
+.terraformrc
+terraform.rc
+
+# ── (Optional) IDE / Editor folders ───────────────────────────────────────────
+.vscode/
+.idea/
+
+# ── (Allow lock file!) ────────────────────────────────────────────────────────
+# Terraform's dependency lock is meant to be checked in
+!**/*.terraform.lock.hcl
