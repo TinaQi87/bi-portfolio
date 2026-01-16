@@ -14,6 +14,8 @@ services:
       - tina-network
     environment:
       - AWS_PROFILE=${AWS_PROFILE:-default}
+      - AWS_ACCESS_KEY_ID=${MINIO_ROOT_USER:-minioadmin}
+      - AWS_SECRET_ACCESS_KEY=${MINIO_ROOT_PASSWORD:-minioadmin}
 
   mysql:
     image: mysql:latest
@@ -42,13 +44,30 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-devuser}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
     volumes:
-      - postgres-data:/var/lib/postgresql
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - tina-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: tina-minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio-data:/data
+    networks:
+      - tina-network
+    command: server /data --console-address ":9001"
 
 volumes:
   mysql-data:
   postgres-data:
+  minio-data:
 
 networks:
   tina-network:

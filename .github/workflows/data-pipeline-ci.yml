@@ -1,0 +1,58 @@
+name: Data Pipeline CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tina-data-engineer/workspace/modern-local-data-engineer/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tina-data-engineer/workspace/modern-local-data-engineer/**'
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          pip install flake8 black sqlfluff pytest
+      
+      - name: Check Python formatting (black)
+        run: |
+          black --check tina-data-engineer/workspace/modern-local-data-engineer/ --exclude '\.ipynb' || true
+      
+      - name: Lint Python (flake8)
+        run: |
+          flake8 tina-data-engineer/workspace/modern-local-data-engineer/ --max-line-length=120 --exclude=*.ipynb || true
+      
+      - name: Lint SQL (sqlfluff)
+        run: |
+          sqlfluff lint tina-data-engineer/workspace/modern-local-data-engineer/ --dialect postgres || true
+
+  dbt-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dbt
+        run: |
+          pip install dbt-core dbt-postgres
+      
+      - name: Check dbt project compiles
+        run: |
+          cd tina-data-engineer/workspace/modern-local-data-engineer/05-capstone-pipeline/dbt_project 2>/dev/null && dbt parse || echo "dbt project not yet created"

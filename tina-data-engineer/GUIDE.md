@@ -1,129 +1,101 @@
-# Getting Started Guide - Data Engineering Environment
+# Development Guide
 
-## Step 1: Start Docker Desktop
+## Rebuilding After Changes
 
-1. Look for the **Docker** icon on your Mac (it looks like a whale with containers)
-2. Click on it to open Docker Desktop
-3. Wait until you see "Docker Desktop is running" in the menu bar
-4. This usually takes 30-60 seconds
+Since Docker is running, apply changes with:
 
-## Step 2: Start Your Development Environment
-
-1. Open **Terminal** (you can find it in Applications > Utilities)
-2. Type this command and press Enter:
-   ```bash
-   cd ~/zz/Documents/tina-data-engineer
-   ```
-3. Then type this command and press Enter:
-   ```bash
-   docker-compose up -d
-   ```
-4. Wait for it to finish (you'll see "Started" messages)
-
-## Step 3: Check Everything is Running
-
-Type this command in Terminal:
 ```bash
-docker ps
+# Rebuild devtools container only (MinIO doesn't need rebuild)
+docker-compose up -d --build devtools
+
+# Start new MinIO container
+docker-compose up -d minio
 ```
 
-You should see 3 containers running:
-- **tina-devtools** - Your workspace
-- **tina-mysql** - MySQL database
-- **tina-postgres** - PostgreSQL database
+## dbt Setup for Gold Layer
 
-## Step 4: Access Jupyter Notebook
+### 1. Initialize dbt Project
 
-1. Open your web browser (Safari, Chrome, etc.)
-2. Go to this address:
-   ```
-   http://localhost:8888
-   ```
-3. You should see the Jupyter Notebook interface
-4. No password needed - it will open directly
-
-## Database Connection Information
-
-### MySQL Database
-- **Host**: localhost
-- **Port**: 3306
-- **Username**: devuser
-- **Password**: devpassword
-- **Database Name**: devdb
-
-### PostgreSQL Database
-- **Host**: localhost
-- **Port**: 5432
-- **Username**: devuser
-- **Password**: devpassword
-- **Database Name**: devdb
-
-## How to Stop Everything
-
-When you're done working, type this in Terminal:
 ```bash
-cd ~/zz/Documents/tina-data-engineer
-docker-compose down
+docker-compose exec devtools bash
+cd /workspace
+dbt init dbt_project
 ```
 
-## Your Work Files
+### 2. Configure dbt Profile
 
-All your notebooks and files are saved in:
+Create `~/.dbt/profiles.yml` in the container:
+
+```yaml
+dbt_project:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      port: 5432
+      user: devuser
+      password: devpassword
+      dbname: devdb
+      schema: gold
 ```
-~/zz/Documents/tina-data-engineer/workspace
+
+### 3. Create Gold Layer Models
+
+Example model `workspace/dbt_project/models/gold/dim_customers.sql`:
+
+```sql
+{{ config(materialized='table', schema='gold') }}
+
+SELECT
+    customer_id,
+    customer_name,
+    created_at
+FROM {{ ref('stg_customers') }}
+WHERE is_active = true
 ```
 
-You can access this folder from Finder too!
+### 4. Run dbt
 
-## Troubleshooting
-
-### Problem: "Cannot connect to Docker"
-**Solution**: Make sure Docker Desktop is running (check the whale icon in your menu bar)
-
-### Problem: "Port already in use"
-**Solution**: Stop the containers first with `docker-compose down`, then start again
-
-### Problem: Can't access http://localhost:8888
-**Solution**: 
-1. Check containers are running: `docker ps`
-2. If not running, start them: `docker-compose up -d`
-3. Wait 10 seconds and try again
-
-## Need Help?
-
-If something doesn't work:
-1. Stop everything: `docker-compose down`
-2. Start Docker Desktop again
-3. Wait for it to be ready
-4. Run `docker-compose up -d` again
-
-## Adding New Python Packages
-
-To add more Python libraries in the future:
-
-1. Edit the file: `~/zz/Documents/tina-data-engineer/requirements.txt`
-2. Add your new package name (one per line)
-3. Rebuild and restart:
-   ```bash
-   cd ~/zz/Documents/tina-data-engineer
-   docker-compose down
-   docker-compose build devtools
-   docker-compose up -d
-   ```
-
-**Quick Install (Temporary)**: For testing, you can install directly:
 ```bash
-docker exec -it tina-devtools pip install <package-name>
+cd /workspace/dbt_project
+dbt run
+dbt test
 ```
-Note: This will be lost when container is rebuilt.
 
----
+## Data Pipeline Pattern
 
-**Quick Reference Card**
+```
+MinIO (Bronze/Raw) → PySpark (Silver/Clean) → PostgreSQL via dbt (Gold/Analytics)
+```
 
-| What | Command |
-|------|---------|
-| Start everything | `docker-compose up -d` |
-| Stop everything | `docker-compose down` |
-| Check status | `docker ps` |
-| Jupyter URL | http://localhost:8888 |
+1. **Bronze**: Raw data lands in MinIO buckets
+2. **Silver**: PySpark cleans and transforms data
+3. **Gold**: dbt creates analytics-ready tables in PostgreSQL
+
+## MinIO Bucket Setup
+
+Access MinIO Console at http://localhost:9001 to create buckets:
+- `bronze` - raw data
+- `silver` - cleaned data
+- `artifacts` - dbt artifacts, logs
+
+## Useful Commands
+
+```bash
+# Check all containers
+docker-compose ps
+
+# View logs
+docker-compose logs -f devtools
+docker-compose logs -f minio
+
+# Restart single service
+docker-compose restart devtools
+
+# Shell into devtools
+docker-compose exec devtools bash
+
+# Run dbt commands
+docker-compose exec devtools dbt run --project-dir /workspace/dbt_project
+```

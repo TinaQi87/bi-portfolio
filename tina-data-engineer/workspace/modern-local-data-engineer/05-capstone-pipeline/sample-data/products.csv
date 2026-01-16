@@ -1,0 +1,6 @@
+product_id,product_name,category,unit_price,cost_price,stock_quantity,supplier
+P001,Wireless Mouse,Electronics,29.99,15.00,150,TechSupply Co
+P002,USB-C Cable,Accessories,9.99,3.50,500,CableWorld
+P003,Bluetooth Headphones,Electronics,149.99,75.00,75,AudioTech
+P004,Laptop Stand,Accessories,79.99,35.00,100,OfficePro
+P005,Mechanical Keyboard,Electronics,299.99,150.00,50,KeyMaster

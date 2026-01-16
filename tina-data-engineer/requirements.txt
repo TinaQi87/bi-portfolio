@@ -6,3 +6,7 @@ matplotlib
 seaborn
 mysql-connector-python
 psycopg2-binary
+boto3
+pyspark
+dbt-core
+dbt-postgres

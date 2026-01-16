@@ -1,11 +1,15 @@
-FROM python:latest
+FROM python:3.12
 
-# Install system dependencies
+# Install system dependencies and Java for PySpark
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     unzip \
+    default-jdk \
     && rm -rf /var/lib/apt/lists/*
+
+# Set Java environment
+ENV JAVA_HOME=/usr/lib/jvm/default-java
 
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
