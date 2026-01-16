@@ -1,0 +1,11 @@
+name,age,city,salary,salary_category
+Alice,28,Sydney,75000,Standard
+Bob,35,Melbourne,85000,Medium
+Charlie,42,Brisbane,95000,High
+Diana,31,Perth,80000,Standard
+Eve,29,Adelaide,78000,Standard
+Frank,38,Sydney,92000,High
+Grace,45,Melbourne,105000,High
+Henry,33,Brisbane,88000,Medium
+Iris,27,Perth,72000,Standard
+Jack,40,Adelaide,98000,High

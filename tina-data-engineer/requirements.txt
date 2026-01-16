@@ -1,0 +1,8 @@
+jupyter
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+mysql-connector-python
+psycopg2-binary

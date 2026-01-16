@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  devtools:
+    build: .
+    container_name: tina-devtools
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./workspace:/workspace
+      - ~/.aws:/root/.aws:ro
+    networks:
+      - tina-network
+    environment:
+      - AWS_PROFILE=${AWS_PROFILE:-default}
+
+  mysql:
+    image: mysql:latest
+    container_name: tina-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-devdb}
+      MYSQL_USER: ${MYSQL_USER:-devuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-devpassword}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - tina-network
+
+  postgres:
+    image: postgres:latest
+    container_name: tina-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-devdb}
+      POSTGRES_USER: ${POSTGRES_USER:-devuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    networks:
+      - tina-network
+
+volumes:
+  mysql-data:
+  postgres-data:
+
+networks:
+  tina-network:
+    driver: bridge

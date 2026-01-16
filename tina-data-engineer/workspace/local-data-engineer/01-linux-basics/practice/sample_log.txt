@@ -1,0 +1,15 @@
+2026-01-16 08:00:00 INFO Application started
+2026-01-16 08:15:23 INFO User alice logged in
+2026-01-16 08:16:45 ERROR Connection timeout
+2026-01-16 08:17:00 INFO User bob logged in
+2026-01-16 08:20:15 WARNING High CPU usage
+2026-01-16 08:25:30 ERROR Database query failed
+2026-01-16 08:30:00 INFO Processing started
+2026-01-16 08:35:12 ERROR Out of memory
+2026-01-16 08:40:00 INFO Processing completed
+2026-01-16 08:45:00 WARNING Disk space low
+2026-01-16 09:00:00 INFO User charlie logged in
+2026-01-16 09:15:00 INFO Data backup started
+2026-01-16 09:30:00 INFO Data backup completed
+2026-01-16 10:00:00 ERROR Network connection lost
+2026-01-16 10:15:00 INFO Network reconnected
