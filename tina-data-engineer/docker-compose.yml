@@ -10,6 +10,7 @@ services:
     volumes:
       - /Users/zz/zz/Documents/bi-portfolio:/workspace
       - ~/.aws:/root/.aws:ro
+      - ~/.ssh:/root/.ssh:ro
     networks:
       - tina-network
     environment:
