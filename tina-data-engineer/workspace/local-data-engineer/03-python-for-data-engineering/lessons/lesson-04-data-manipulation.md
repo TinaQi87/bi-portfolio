@@ -225,6 +225,146 @@ monthly = df.set_index("date").resample("M")["amount"].sum()
 
 ---
 
+## Working with Dates & Times (Deep Dive)
+
+Dates are critical in data engineering - partitioning, filtering, reporting all depend on them.
+
+### Python datetime Module
+```python
+from datetime import datetime, date, timedelta
+
+# Current date/time
+now = datetime.now()
+today = date.today()
+
+# Create specific date
+specific = datetime(2026, 1, 15, 10, 30, 0)
+
+# Parse string to datetime
+dt = datetime.strptime("2026-01-15", "%Y-%m-%d")
+dt = datetime.strptime("15/01/2026 10:30", "%d/%m/%Y %H:%M")
+
+# Format datetime to string
+formatted = now.strftime("%Y-%m-%d")
+formatted = now.strftime("%B %d, %Y")  # "January 15, 2026"
+```
+
+### Date Arithmetic
+```python
+from datetime import timedelta
+
+now = datetime.now()
+
+# Add/subtract time
+tomorrow = now + timedelta(days=1)
+last_week = now - timedelta(weeks=1)
+two_hours_ago = now - timedelta(hours=2)
+
+# Difference between dates
+date1 = datetime(2026, 1, 15)
+date2 = datetime(2026, 1, 10)
+diff = date1 - date2
+print(diff.days)  # 5
+```
+
+### Common Date Patterns for ETL
+```python
+from datetime import datetime, timedelta
+
+# Yesterday (common for daily ETL)
+yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+# First day of current month
+first_of_month = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+
+# Last day of previous month
+last_of_prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).strftime("%Y-%m-%d")
+
+# Date range for queries
+start_date = "2026-01-01"
+end_date = datetime.now().strftime("%Y-%m-%d")
+query = f"SELECT * FROM orders WHERE order_date BETWEEN '{start_date}' AND '{end_date}'"
+```
+
+### Pandas Datetime Operations
+```python
+import pandas as pd
+
+# Convert column to datetime
+df["order_date"] = pd.to_datetime(df["order_date"])
+
+# Handle different formats
+df["date"] = pd.to_datetime(df["date"], format="%d/%m/%Y")
+
+# Handle errors
+df["date"] = pd.to_datetime(df["date"], errors="coerce")  # Invalid -> NaT
+
+# Extract components
+df["year"] = df["order_date"].dt.year
+df["month"] = df["order_date"].dt.month
+df["quarter"] = df["order_date"].dt.quarter
+df["week"] = df["order_date"].dt.isocalendar().week
+df["day_of_week"] = df["order_date"].dt.dayofweek  # 0=Monday
+df["day_name"] = df["order_date"].dt.day_name()
+df["is_weekend"] = df["order_date"].dt.dayofweek >= 5
+
+# Date arithmetic in Pandas
+df["days_since_order"] = (pd.Timestamp.now() - df["order_date"]).dt.days
+df["order_age_months"] = (pd.Timestamp.now() - df["order_date"]).dt.days / 30
+```
+
+### Filtering by Date
+```python
+# Filter by specific date
+df[df["order_date"] == "2026-01-15"]
+
+# Filter by date range
+df[(df["order_date"] >= "2026-01-01") & (df["order_date"] <= "2026-01-31")]
+
+# Filter by year/month
+df[df["order_date"].dt.year == 2026]
+df[df["order_date"].dt.month == 1]
+
+# Last 7 days
+cutoff = pd.Timestamp.now() - pd.Timedelta(days=7)
+df[df["order_date"] >= cutoff]
+
+# This month
+df[df["order_date"].dt.to_period("M") == pd.Timestamp.now().to_period("M")]
+```
+
+### Grouping by Time Periods
+```python
+# Group by month
+monthly = df.groupby(df["order_date"].dt.to_period("M"))["amount"].sum()
+
+# Group by week
+weekly = df.groupby(df["order_date"].dt.to_period("W"))["amount"].sum()
+
+# Group by year-month string
+df["month"] = df["order_date"].dt.strftime("%Y-%m")
+monthly = df.groupby("month")["amount"].sum()
+```
+
+### Timezone Handling
+```python
+import pandas as pd
+
+# Create timezone-aware timestamp
+ts = pd.Timestamp("2026-01-15 10:00", tz="UTC")
+
+# Convert timezone
+ts_sydney = ts.tz_convert("Australia/Sydney")
+
+# Localize naive datetime
+df["order_date"] = pd.to_datetime(df["order_date"]).dt.tz_localize("UTC")
+
+# Convert to local timezone
+df["local_date"] = df["order_date"].dt.tz_convert("America/New_York")
+```
+
+---
+
 ## Handling Duplicates
 
 ```python

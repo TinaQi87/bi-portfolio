@@ -342,6 +342,40 @@ loader.incremental_load(fact_sales, "fact_sales", "order_date")
 
 ---
 
+## Common Mistakes Beginners Make
+
+### Mistake 1: Using Full Load for Large Tables
+**Problem:** Pipeline takes hours because it reloads millions of rows daily.
+**Fix:** Use incremental loading for fact tables and large datasets.
+
+### Mistake 2: Not Using Transactions
+**Problem:** Pipeline fails halfway, leaving partial data in destination.
+**Fix:** Wrap load operations in transactions, rollback on failure.
+
+### Mistake 3: Forgetting to Handle Duplicates
+**Problem:** Running pipeline twice creates duplicate records.
+**Fix:** Use upsert pattern or delete-before-insert for idempotency.
+
+### Mistake 4: Loading Row by Row
+**Problem:** Inserting one row at a time is extremely slow.
+**Fix:** Use bulk operations: `to_sql()`, `executemany()`, or `LOAD DATA`.
+
+### Mistake 5: Not Tracking Load Metadata
+**Problem:** Can't tell when data was loaded or from which source.
+**Fix:** Add `loaded_at`, `source_file`, `batch_id` columns.
+
+---
+
+## Check Your Understanding
+
+1. When would you use full load vs incremental load?
+2. What is an upsert and when would you use it?
+3. Why are transactions important when loading data?
+4. How do you make a pipeline idempotent?
+5. What's the benefit of chunked loading?
+
+---
+
 ## Key Takeaways
 
 ✅ Full load: simple but slow, use for small tables

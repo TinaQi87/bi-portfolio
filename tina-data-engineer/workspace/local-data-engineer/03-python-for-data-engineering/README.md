@@ -61,6 +61,7 @@ By the end of this module, you will:
 - Merging and joining DataFrames
 - Pivot tables
 - Reshaping data
+- Working with dates and times (deep dive)
 
 ### Lesson 5: Database Connections
 - Connecting to MySQL
@@ -101,17 +102,22 @@ By the end of this module, you will:
 - Code style (PEP 8)
 - Virtual environments
 
-### Lesson 10: Performance & Best Practices
-- List comprehensions
+### Lesson 10: Building ETL Scripts
+- ETL structure and patterns
+- Extract, transform, load functions
+- Error handling in pipelines
+- Logging and monitoring
+- Complete ETL example
+
+### Lesson 11: Performance & Best Practices
+- List comprehensions vs loops
 - Generator expressions
 - Memory efficiency
+- Pandas optimization
 - Profiling code
-- Common pitfalls
 - Writing maintainable code
 
 ---
-
-## Hands-On Exercises
 
 ### Exercise 1: CSV Data Processor
 **Scenario**: Read a CSV file, clean the data, calculate statistics, and export results.
@@ -145,6 +151,13 @@ By the end of this module, you will:
 **Scenario**: Generate daily sales reports from database data.
 
 **Skills**: SQL queries, Pandas aggregation, file export
+
+---
+
+### Exercise 6: API Data Extraction
+**Scenario**: Fetch data from a REST API, transform it, and store in database.
+
+**Skills**: HTTP requests, JSON parsing, error handling, retry logic
 
 ---
 
@@ -485,9 +498,9 @@ df.dropna()
 
 ## Time Estimate
 
-- **Reading**: 4 hours
-- **Hands-on exercises**: 12-15 hours
-- **Total**: 16-19 hours (spread over 2 weeks)
+- **Reading**: 5 hours
+- **Hands-on exercises**: 14-17 hours
+- **Total**: 19-22 hours (spread over 2-3 weeks)
 
 ---
 

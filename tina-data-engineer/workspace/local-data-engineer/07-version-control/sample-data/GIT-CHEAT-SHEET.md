@@ -1,90 +1,140 @@
-# Git Cheat Sheet
+# Git Commands Cheat Sheet
 
-## Setup
+## Daily Commands
+
 ```bash
-git config --global user.name "Name"
-git config --global user.email "email"
+# Check status (use constantly)
+git status
+
+# Stage changes
+git add <file>          # Stage specific file
+git add .               # Stage all in current directory
+git add -A              # Stage everything
+
+# Commit
+git commit -m "message" # Commit with message
+
+# View history
+git log --oneline       # Compact history
+git log -5              # Last 5 commits
+
+# See changes
+git diff                # Unstaged changes
+git diff --staged       # Staged changes
 ```
 
-## Basic Commands
+## Branching
+
 ```bash
-git init              # Create repo
-git clone <url>       # Copy repo
-git status            # Check state
-git add <file>        # Stage file
-git add .             # Stage all
-git commit -m "msg"   # Commit
+# List branches
+git branch              # Local branches
+git branch -a           # All branches (including remote)
+
+# Create and switch
+git checkout -b feature/name    # Create + switch
+git checkout main               # Switch to existing
+
+# Delete branch
+git branch -d branch-name       # Safe delete (merged only)
+git branch -D branch-name       # Force delete
 ```
 
-## History
+## Remote Operations
+
 ```bash
-git log               # View history
-git log --oneline     # Compact view
-git diff              # See changes
-git show <commit>     # Show commit
-git blame <file>      # Who changed what
+# Clone repository
+git clone <url>
+
+# Get updates
+git fetch               # Download without merging
+git pull                # Download and merge
+
+# Push changes
+git push                        # Push current branch
+git push -u origin branch-name  # Push new branch
 ```
 
-## Branches
+## Undoing Things
+
 ```bash
-git branch            # List branches
-git branch <name>     # Create branch
-git checkout <name>   # Switch branch
-git checkout -b <name> # Create & switch
-git merge <branch>    # Merge into current
-git branch -d <name>  # Delete branch
+# Unstage file
+git restore --staged <file>
+
+# Discard changes (CAREFUL - permanent!)
+git restore <file>
+
+# Undo last commit (keep changes)
+git reset --soft HEAD~1
+
+# Undo last commit (discard changes - CAREFUL!)
+git reset --hard HEAD~1
 ```
 
-## Remote
+## Merging
+
 ```bash
-git remote -v         # List remotes
-git push origin main  # Push to remote
-git pull origin main  # Pull from remote
-git fetch origin      # Download only
+# Merge branch into current
+git merge branch-name
+
+# Abort merge (if conflicts are too messy)
+git merge --abort
 ```
 
-## Undo
+## Useful Shortcuts
+
 ```bash
-git checkout -- <file>    # Discard changes
-git reset HEAD <file>     # Unstage
-git reset --soft HEAD~1   # Undo commit (keep changes)
-git reset --hard HEAD~1   # Undo commit (discard)
-git revert <commit>       # Undo pushed commit
+# Amend last commit message
+git commit --amend -m "new message"
+
+# See who changed each line
+git blame <file>
+
+# Search commit messages
+git log --grep="keyword"
+
+# See commits by author
+git log --author="name"
 ```
 
-## .gitignore
-```gitignore
-*.csv           # Ignore all CSV
-data/           # Ignore directory
-!important.csv  # Exception
-.env            # Secrets
-__pycache__/    # Python cache
+## Configuration
+
+```bash
+# Set identity
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+
+# See all config
+git config --list
+
+# Set default branch name
+git config --global init.defaultBranch main
 ```
 
-## Workflow
+## Common Workflows
+
+### Start New Feature
 ```bash
 git checkout main
-git pull origin main
-git checkout -b feature/name
+git pull
+git checkout -b feature/description
 # ... work ...
 git add .
-git commit -m "Description"
-git push -u origin feature/name
-# Create PR, get review, merge
-git checkout main
-git pull origin main
-git branch -d feature/name
+git commit -m "Add: feature description"
+git push -u origin feature/description
+# Create PR on GitHub
 ```
 
-## Quick Reference
+### Update Branch with Latest Main
+```bash
+git fetch origin main
+git merge origin/main
+# Resolve conflicts if any
+git push
+```
 
-| Task | Command |
-|------|---------|
-| Start repo | `git init` |
-| Save changes | `git add . && git commit -m "msg"` |
-| New branch | `git checkout -b name` |
-| Merge | `git merge branch` |
-| Push | `git push origin branch` |
-| Pull | `git pull origin branch` |
-| Undo file | `git checkout -- file` |
-| View log | `git log --oneline` |
+### After PR is Merged
+```bash
+git checkout main
+git pull
+git branch -d feature/description
+```

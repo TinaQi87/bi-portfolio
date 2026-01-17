@@ -389,3 +389,76 @@ You've finished all exercises for Database Fundamentals:
 - Exercise 5: Optimized query performance
 
 **Next:** Module 3 - Python for Data Engineering!
+
+
+---
+
+## PostgreSQL Challenge
+
+Try the same optimization exercises in PostgreSQL to understand the differences.
+
+### Connect to PostgreSQL
+```bash
+docker exec -it tina-postgres psql -U devuser -d devdb
+```
+
+### Create Tables (PostgreSQL syntax)
+```sql
+CREATE TABLE perf_customers (
+    customer_id SERIAL PRIMARY KEY,
+    email VARCHAR(255),
+    name VARCHAR(200),
+    city VARCHAR(100),
+    segment VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE perf_orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id INT REFERENCES perf_customers(customer_id),
+    order_date DATE,
+    status VARCHAR(50),
+    total_amount DECIMAL(10,2)
+);
+
+-- Insert sample data (PostgreSQL uses generate_series)
+INSERT INTO perf_customers (email, name, city, segment)
+SELECT 
+    'user' || n || '@email.com',
+    'Customer ' || n,
+    (ARRAY['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'])[1 + (n % 5)],
+    (ARRAY['Enterprise', 'SMB', 'Startup'])[1 + (n % 3)]
+FROM generate_series(1, 100) AS n;
+
+INSERT INTO perf_orders (customer_id, order_date, status, total_amount)
+SELECT 
+    1 + (n % 100),
+    CURRENT_DATE - (n % 365),
+    (ARRAY['completed', 'pending', 'shipped', 'cancelled'])[1 + (n % 4)],
+    ROUND((50 + RANDOM() * 500)::numeric, 2)
+FROM generate_series(1, 1000) AS n;
+```
+
+### PostgreSQL EXPLAIN Differences
+```sql
+-- PostgreSQL provides more detailed output
+EXPLAIN ANALYZE SELECT * FROM perf_customers WHERE email = 'user50@email.com';
+
+-- Create index (same syntax)
+CREATE INDEX idx_email ON perf_customers(email);
+
+-- Compare with EXPLAIN ANALYZE (shows actual execution time)
+EXPLAIN ANALYZE SELECT * FROM perf_customers WHERE email = 'user50@email.com';
+```
+
+### Key PostgreSQL Differences
+- `EXPLAIN ANALYZE` shows actual execution time (MySQL uses `EXPLAIN ANALYZE` in 8.0+)
+- `SERIAL` instead of `AUTO_INCREMENT`
+- Array syntax for sample data generation
+- `generate_series()` for creating test data
+
+### Cleanup PostgreSQL
+```sql
+DROP TABLE IF EXISTS perf_orders;
+DROP TABLE IF EXISTS perf_customers;
+```

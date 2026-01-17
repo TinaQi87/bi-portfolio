@@ -422,6 +422,41 @@ DROP TABLE IF EXISTS sales_customers;
 
 ---
 
+---
+
+## PostgreSQL Variant
+
+Try these queries in PostgreSQL - note the syntax differences:
+
+```bash
+docker exec -it tina-postgres psql -U devuser -d devdb
+```
+
+**Key differences:**
+```sql
+-- Date formatting uses TO_CHAR instead of DATE_FORMAT
+SELECT 
+    TO_CHAR(sale_date, 'YYYY-MM') AS month,
+    SUM(amount) AS revenue
+FROM sales
+GROUP BY TO_CHAR(sale_date, 'YYYY-MM')
+ORDER BY month;
+
+-- String aggregation uses STRING_AGG instead of GROUP_CONCAT
+SELECT 
+    c.name,
+    STRING_AGG(p.name, ', ') AS products_bought
+FROM sales_customers c
+JOIN sales s ON c.customer_id = s.customer_id
+JOIN sales_products p ON s.product_id = p.product_id
+GROUP BY c.customer_id, c.name;
+
+-- ILIKE for case-insensitive search (MySQL LIKE is case-insensitive by default)
+SELECT * FROM sales_customers WHERE name ILIKE '%corp%';
+```
+
+---
+
 ## Next Exercise
 
 Move to Exercise 4: Data Cleaning with SQL

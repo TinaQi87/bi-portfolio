@@ -2,234 +2,303 @@
 
 ## What is Normalization?
 
-Normalization is a set of rules for organizing data to:
-- Eliminate redundancy (duplicate data)
-- Ensure data integrity
-- Make updates easier
+Normalization is a set of rules that help you organize data to:
+- **Eliminate redundancy** (don't store the same thing twice)
+- **Prevent update problems** (change data in one place, not many)
+- **Ensure data integrity** (keep data accurate and consistent)
 
-Think of it as cleaning up a messy spreadsheet into organized tables.
+Think of it as a checklist: "Does my table design pass these rules?"
 
 ---
 
-## The Problem: Unnormalized Data
+## Why Does This Matter in the Real World?
+
+**Industry context:** When you join a company as a data engineer, you'll often inherit databases designed by people who didn't follow these rules. You'll spend time fixing problems that normalization would have prevented.
+
+**Job interviews:** "Normalize this table to 3NF" is a common interview question. Understanding normalization shows you know proper database design.
+
+---
+
+## The Three Normal Forms (Overview)
+
+| Form | Simple Rule | What It Prevents |
+|------|-------------|------------------|
+| 1NF | Each cell has ONE value | Messy, unsearchable data |
+| 2NF | Every column relates to the WHOLE key | Partial redundancy |
+| 3NF | Columns only depend on the key | Hidden redundancy |
+
+Don't worry if this doesn't make sense yet. We'll go through each one step by step with the SAME example.
+
+---
+
+## Our Running Example: A Messy Sales Table
+
+Let's follow ONE example through all three normal forms. This is how you'll actually think through normalization in real work.
 
 ```
-orders_messy:
-| order_id | customer | email           | products              | prices        |
-|----------|----------|-----------------|----------------------|---------------|
-| 1        | Alice    | alice@mail.com  | Laptop, Mouse        | 999.99, 29.99 |
-| 2        | Bob      | bob@mail.com    | Keyboard             | 79.99         |
-| 3        | Alice    | alice@mail.com  | Monitor, Mouse       | 349.99, 29.99 |
+sales_messy:
+| sale_id | sale_date  | customer_name | customer_email    | customer_city | product_name | category    | unit_price | qty |
+|---------|------------|---------------|-------------------|---------------|--------------|-------------|------------|-----|
+| 1       | 2026-01-15 | Alice Smith   | alice@email.com   | New York      | Laptop       | Electronics | 999.99     | 1   |
+| 2       | 2026-01-15 | Alice Smith   | alice@email.com   | New York      | Mouse        | Electronics | 29.99      | 2   |
+| 3       | 2026-01-16 | Bob Jones     | bob@email.com     | Chicago       | Laptop       | Electronics | 999.99     | 1   |
+| 4       | 2026-01-16 | Alice Smith   | alice@email.com   | New York      | Desk         | Furniture   | 299.99     | 1   |
+| 5       | 2026-01-17 | Carol White   | carol@email.com   | Boston        | Chair        | Furniture   | 199.99     | 2   |
 ```
 
-**Problems:**
-- Multiple values in one cell (products, prices)
-- Customer info repeated
-- Hard to query ("find all Mouse orders")
-- Update anomalies
+**Problems you can already see:**
+- Alice's info appears 3 times (rows 1, 2, 4)
+- "Laptop" with price 999.99 appears twice (rows 1, 3)
+- "Electronics" appears 3 times
+
+Let's fix this step by step.
 
 ---
 
 ## First Normal Form (1NF)
 
-**Rule**: Each cell contains a single value. No repeating groups.
+### The Rule
+> Each cell must contain only ONE value. No lists, no repeating groups.
 
-### Before (Violates 1NF)
+### What Violates 1NF?
+
+**Bad - Multiple values in one cell:**
 ```
-| order_id | products        |
-|----------|-----------------|
-| 1        | Laptop, Mouse   |  ← Multiple values!
+| order_id | products              |
+|----------|-----------------------|
+| 1        | Laptop, Mouse, Cable  |  ← THREE values in one cell!
 ```
 
-### After (1NF)
+**Bad - Repeating columns:**
 ```
-| order_id | product  |
-|----------|----------|
-| 1        | Laptop   |
-| 1        | Mouse    |
+| order_id | product1 | product2 | product3 |
+|----------|----------|----------|----------|
+| 1        | Laptop   | Mouse    | Cable    |
 ```
+
+### How to Fix 1NF Violations
+
+**Good - One value per cell, one row per item:**
+```
+| order_id | product |
+|----------|---------|
+| 1        | Laptop  |
+| 1        | Mouse   |
+| 1        | Cable   |
+```
+
+### Is Our Example in 1NF?
+
+Let's check our sales_messy table:
+- ✅ Each cell has one value (no lists)
+- ✅ No repeating columns (like product1, product2, product3)
+- ✅ Each row is unique (sale_id is different)
+
+**Yes, it's already in 1NF!** But it still has problems. Let's continue.
 
 ### 1NF Checklist
-- ✅ Each column has atomic (single) values
-- ✅ Each row is unique
-- ✅ Each column has a unique name
-- ✅ Order of rows doesn't matter
+- [ ] Every cell contains exactly one value
+- [ ] No repeating groups of columns
+- [ ] Each row is unique (has a primary key)
 
 ---
 
 ## Second Normal Form (2NF)
 
-**Rule**: Must be in 1NF, plus no partial dependencies.
+### The Rule
+> Must be in 1NF, AND every non-key column must depend on the ENTIRE primary key.
 
-A partial dependency is when a non-key column depends on only PART of a composite primary key.
+### Wait, What Does That Mean?
 
-### Before (Violates 2NF)
+This rule mainly applies when you have a **composite primary key** (a key made of multiple columns).
 
-Primary key: (order_id, product_id)
+Let me show you with a simpler example first:
+
+**Example: Class Enrollment**
+```
+enrollments:
+| student_id | course_id | student_name | course_name | grade |
+|------------|-----------|--------------|-------------|-------|
+| 1          | 101       | Alice        | Math        | A     |
+| 1          | 102       | Alice        | English     | B     |
+| 2          | 101       | Bob          | Math        | B     |
+```
+
+Primary key: (student_id, course_id) - together they identify each row.
+
+**The problem:**
+- `student_name` depends only on `student_id`, not on the full key
+- `course_name` depends only on `course_id`, not on the full key
+- Only `grade` depends on BOTH student_id AND course_id
+
+**This is a "partial dependency" - and it violates 2NF.**
+
+### How to Fix 2NF Violations
+
+Split into separate tables:
 
 ```
-order_items:
-| order_id | product_id | product_name | quantity |
-|----------|------------|--------------|----------|
-| 1        | 101        | Laptop       | 1        |
-| 1        | 102        | Mouse        | 2        |
+students:                    courses:                     enrollments:
+| student_id | student_name | | course_id | course_name | | student_id | course_id | grade |
+|------------|--------------|  |-----------|-------------|  |------------|-----------|-------|
+| 1          | Alice        | | 101       | Math        | | 1          | 101       | A     |
+| 2          | Bob          | | 102       | English     | | 1          | 102       | B     |
+                                                          | 2          | 101       | B     |
 ```
 
-`product_name` depends only on `product_id`, not on the full key (order_id, product_id).
+Now each piece of information is stored once!
 
-### After (2NF)
+### Back to Our Sales Example
 
-Split into two tables:
+Our sales_messy table has `sale_id` as the primary key (single column, not composite).
 
-```
-order_items:
-| order_id | product_id | quantity |
-|----------|------------|----------|
-| 1        | 101        | 1        |
-| 1        | 102        | 2        |
+When you have a single-column primary key, 2NF violations are less common. But we still have redundancy! That's what 3NF addresses.
 
-products:
-| product_id | product_name |
-|------------|--------------|
-| 101        | Laptop       |
-| 102        | Mouse        |
-```
+**For now, our table passes 2NF** (single-column key, no partial dependencies).
 
 ### 2NF Checklist
-- ✅ Is in 1NF
-- ✅ All non-key columns depend on the ENTIRE primary key
+- [ ] Is in 1NF
+- [ ] If composite key: all non-key columns depend on the FULL key
+- [ ] No partial dependencies
 
 ---
 
 ## Third Normal Form (3NF)
 
-**Rule**: Must be in 2NF, plus no transitive dependencies.
+### The Rule
+> Must be in 2NF, AND no non-key column should depend on another non-key column.
 
-A transitive dependency is when a non-key column depends on another non-key column.
+### What Does That Mean? (The Simple Version)
 
-### Before (Violates 3NF)
+Ask yourself: "Does this column describe the PRIMARY KEY, or does it describe ANOTHER COLUMN?"
 
-```
-employees:
-| emp_id | emp_name | dept_id | dept_name   |
-|--------|----------|---------|-------------|
-| 1      | Alice    | 10      | Engineering |
-| 2      | Bob      | 10      | Engineering |
-| 3      | Carol    | 20      | Marketing   |
-```
+If a column describes another column (not the key), it should be in a separate table.
 
-`dept_name` depends on `dept_id`, not directly on `emp_id`.
+### Finding 3NF Violations in Our Example
 
-Chain: emp_id → dept_id → dept_name (transitive!)
-
-### After (3NF)
+Look at our sales_messy table:
 
 ```
-employees:
-| emp_id | emp_name | dept_id |
-|--------|----------|---------|
-| 1      | Alice    | 10      |
-| 2      | Bob      | 10      |
-| 3      | Carol    | 20      |
+| sale_id | sale_date  | customer_name | customer_email    | customer_city | product_name | category    | unit_price | qty |
+```
 
-departments:
-| dept_id | dept_name   |
-|---------|-------------|
-| 10      | Engineering |
-| 20      | Marketing   |
+Let's trace the dependencies:
+
+**Customer information:**
+- `customer_email` → determines → `customer_name`, `customer_city`
+- If I know the email, I know the name and city
+- These don't depend on `sale_id`, they depend on the customer!
+
+**Product information:**
+- `product_name` → determines → `category`, `unit_price`
+- If I know the product, I know its category and price
+- These don't depend on `sale_id`, they depend on the product!
+
+**This is called "transitive dependency":**
+```
+sale_id → customer_email → customer_name, customer_city
+sale_id → product_name → category, unit_price
+```
+
+The chain goes: key → column → other columns. That's a 3NF violation!
+
+### How to Fix: Extract to Separate Tables
+
+**Step 1: Create a customers table**
+```
+customers:
+| customer_id | customer_name | customer_email    | customer_city |
+|-------------|---------------|-------------------|---------------|
+| 1           | Alice Smith   | alice@email.com   | New York      |
+| 2           | Bob Jones     | bob@email.com     | Chicago       |
+| 3           | Carol White   | carol@email.com   | Boston        |
+```
+
+**Step 2: Create a products table**
+```
+products:
+| product_id | product_name | category    | unit_price |
+|------------|--------------|-------------|------------|
+| 1          | Laptop       | Electronics | 999.99     |
+| 2          | Mouse        | Electronics | 29.99      |
+| 3          | Desk         | Furniture   | 299.99     |
+| 4          | Chair        | Furniture   | 199.99     |
+```
+
+**Step 3: Simplify the sales table**
+```
+sales:
+| sale_id | sale_date  | customer_id | product_id | qty |
+|---------|------------|-------------|------------|-----|
+| 1       | 2026-01-15 | 1           | 1          | 1   |
+| 2       | 2026-01-15 | 1           | 2          | 2   |
+| 3       | 2026-01-16 | 2           | 1          | 1   |
+| 4       | 2026-01-16 | 1           | 3          | 1   |
+| 5       | 2026-01-17 | 3           | 4          | 2   |
+```
+
+### The Final Result: 3NF
+
+We went from 1 messy table to 3 clean tables:
+
+```
+BEFORE (1 table, lots of redundancy):
+- Alice's info stored 3 times
+- Laptop info stored 2 times
+- 9 columns of mixed data
+
+AFTER (3 tables, no redundancy):
+- Alice's info stored 1 time
+- Laptop info stored 1 time
+- Clear separation of concerns
 ```
 
 ### 3NF Checklist
-- ✅ Is in 2NF
-- ✅ No non-key column depends on another non-key column
+- [ ] Is in 2NF
+- [ ] No column depends on another non-key column
+- [ ] Each table represents ONE thing (customers, products, sales)
 
 ---
 
-## Complete Normalization Example
+## The Complete Normalization Process
 
-### Start: Unnormalized
+Here's how to normalize any table:
 
-```
-orders_raw:
-| order_id | order_date | customer_name | customer_email  | customer_city | product_name | product_price | qty |
-|----------|------------|---------------|-----------------|---------------|--------------|---------------|-----|
-| 1        | 2026-01-15 | Alice Smith   | alice@mail.com  | New York      | Laptop       | 999.99        | 1   |
-| 1        | 2026-01-15 | Alice Smith   | alice@mail.com  | New York      | Mouse        | 29.99         | 2   |
-| 2        | 2026-01-16 | Bob Jones     | bob@mail.com    | Chicago       | Laptop       | 999.99        | 1   |
-```
+### Step 1: Check 1NF
+- Are there any cells with multiple values? → Split into rows
+- Are there repeating column groups? → Split into rows
 
-### Step 1: Apply 1NF
-Already in 1NF (each cell has one value).
-
-### Step 2: Apply 2NF
-Identify dependencies:
-- customer_name, customer_email, customer_city → depend on customer (not order)
-- product_name, product_price → depend on product (not order)
-
-Split:
-```
-customers:
-| customer_id | name        | email          | city     |
-|-------------|-------------|----------------|----------|
-| 1           | Alice Smith | alice@mail.com | New York |
-| 2           | Bob Jones   | bob@mail.com   | Chicago  |
-
-products:
-| product_id | name   | price  |
-|------------|--------|--------|
-| 1          | Laptop | 999.99 |
-| 2          | Mouse  | 29.99  |
-
-orders:
-| order_id | order_date | customer_id |
-|----------|------------|-------------|
-| 1        | 2026-01-15 | 1           |
-| 2        | 2026-01-16 | 2           |
-
-order_items:
-| order_id | product_id | qty |
-|----------|------------|-----|
-| 1        | 1          | 1   |
-| 1        | 2          | 2   |
-| 2        | 1          | 1   |
-```
+### Step 2: Check 2NF (if composite key)
+- Does any column depend on only PART of the key? → Move to separate table
 
 ### Step 3: Check 3NF
-No transitive dependencies - already in 3NF!
+- Does any column depend on another non-key column? → Move to separate table
+
+### The Question to Always Ask
+> "What does this column REALLY describe?"
+
+- If it describes the primary key → Keep it
+- If it describes something else → Move it to that thing's table
 
 ---
 
-## Benefits of Normalization
+## Should You Always Normalize to 3NF?
 
-| Benefit | Explanation |
-|---------|-------------|
-| No redundancy | Data stored once |
-| Easy updates | Change in one place |
-| Data integrity | Foreign keys enforce relationships |
-| Smaller storage | Less duplicate data |
-| Flexible queries | Join tables as needed |
+**Industry reality:** It depends on the use case.
 
----
+### Normalize (3NF) When:
+- Building transactional systems (OLTP) - online stores, banking, CRM
+- Data integrity is critical
+- Data changes frequently
+- Storage efficiency matters
 
-## Drawbacks of Normalization
+### Don't Fully Normalize When:
+- Building analytics/reporting systems (OLAP)
+- Query speed is more important than storage
+- Data is read-heavy, write-light
+- You're building a data warehouse (we'll cover this in Lesson 4)
 
-| Drawback | Explanation |
-|----------|-------------|
-| More tables | Complex schema |
-| More JOINs | Queries need multiple tables |
-| Slower reads | JOINs have overhead |
-
-**Trade-off**: Normalized for transactions (OLTP), denormalized for analytics (OLAP).
-
----
-
-## Quick Reference
-
-| Normal Form | Rule | Fix |
-|-------------|------|-----|
-| 1NF | Atomic values, no repeating groups | Split multi-values into rows |
-| 2NF | No partial dependencies | Move partially dependent columns to new table |
-| 3NF | No transitive dependencies | Move transitively dependent columns to new table |
+**Rule of thumb:** Start normalized, denormalize only when you have a specific performance reason.
 
 ---
 
@@ -238,64 +307,124 @@ No transitive dependencies - already in 3NF!
 Normalize this table to 3NF:
 
 ```
-sales:
-| sale_id | date       | salesperson | sp_phone     | customer | product | category    | price | qty |
-|---------|------------|-------------|--------------|----------|---------|-------------|-------|-----|
-| 1       | 2026-01-15 | John        | 555-1234     | Alice    | Laptop  | Electronics | 999   | 1   |
-| 2       | 2026-01-15 | John        | 555-1234     | Bob      | Mouse   | Electronics | 30    | 2   |
-| 3       | 2026-01-16 | Jane        | 555-5678     | Alice    | Desk    | Furniture   | 300   | 1   |
+orders:
+| order_id | order_date | customer_name | customer_phone | product | supplier_name | supplier_phone | qty | price |
+|----------|------------|---------------|----------------|---------|---------------|----------------|-----|-------|
+| 1        | 2026-01-15 | Alice         | 555-1111       | Laptop  | TechCorp      | 555-9999       | 1   | 999   |
+| 2        | 2026-01-15 | Alice         | 555-1111       | Mouse   | TechCorp      | 555-9999       | 2   | 30    |
+| 3        | 2026-01-16 | Bob           | 555-2222       | Laptop  | TechCorp      | 555-9999       | 1   | 999   |
 ```
+
+**Think through it:**
+1. What entities do you see? (Customer, Product, Supplier, Order)
+2. What depends on what?
+3. How would you split this?
 
 <details>
-<summary>Solution</summary>
+<summary>Click to see solution</summary>
 
 ```
-salespersons:
-| sp_id | name | phone    |
-|-------|------|----------|
-| 1     | John | 555-1234 |
-| 2     | Jane | 555-5678 |
-
 customers:
-| customer_id | name  |
-|-------------|-------|
-| 1           | Alice |
-| 2           | Bob   |
+| customer_id | customer_name | customer_phone |
+|-------------|---------------|----------------|
+| 1           | Alice         | 555-1111       |
+| 2           | Bob           | 555-2222       |
 
-categories:
-| category_id | name        |
-|-------------|-------------|
-| 1           | Electronics |
-| 2           | Furniture   |
+suppliers:
+| supplier_id | supplier_name | supplier_phone |
+|-------------|---------------|----------------|
+| 1           | TechCorp      | 555-9999       |
 
 products:
-| product_id | name   | category_id | price |
-|------------|--------|-------------|-------|
-| 1          | Laptop | 1           | 999   |
-| 2          | Mouse  | 1           | 30    |
-| 3          | Desk   | 2           | 300   |
+| product_id | product_name | supplier_id | price |
+|------------|--------------|-------------|-------|
+| 1          | Laptop       | 1           | 999   |
+| 2          | Mouse        | 1           | 30    |
 
-sales:
-| sale_id | date       | sp_id | customer_id | product_id | qty |
-|---------|------------|-------|-------------|------------|-----|
-| 1       | 2026-01-15 | 1     | 1           | 1          | 1   |
-| 2       | 2026-01-15 | 1     | 2           | 2          | 2   |
-| 3       | 2026-01-16 | 2     | 1           | 3          | 1   |
+orders:
+| order_id | order_date | customer_id | product_id | qty |
+|----------|------------|-------------|------------|-----|
+| 1        | 2026-01-15 | 1           | 1          | 1   |
+| 2        | 2026-01-15 | 1           | 2          | 2   |
+| 3        | 2026-01-16 | 2           | 1          | 1   |
 ```
+
+**Why this design:**
+- Customer info in one place (change phone once)
+- Supplier info in one place
+- Product linked to supplier (products come from suppliers)
+- Orders just link everything together
 </details>
+
+---
+
+## Common Mistakes Beginners Make
+
+### Mistake 1: Over-normalizing
+**Example:** Creating a separate table for "city" with city_id.
+**Problem:** Adds complexity without much benefit.
+**Rule:** Normalize to 3NF, but don't go crazy. If a value is just a simple attribute (like city name), it can stay.
+
+### Mistake 2: Under-normalizing
+**Example:** Keeping customer info in the orders table "because it's easier."
+**Problem:** Data redundancy, update anomalies.
+**Rule:** If you see the same data repeated, it probably needs its own table.
+
+### Mistake 3: Forgetting foreign keys
+**Example:** Creating separate tables but not linking them.
+**Problem:** No data integrity, orphan records possible.
+**Rule:** Always add foreign key constraints.
+
+### Mistake 4: Using natural keys as primary keys
+**Example:** Using email as the primary key for customers.
+**Problem:** Emails change! Then you have to update everywhere.
+**Rule:** Use auto-generated IDs (surrogate keys) as primary keys.
+
+---
+
+## Check Your Understanding
+
+1. What is the main goal of normalization?
+2. What does 1NF require?
+3. What is a "partial dependency" (2NF violation)?
+4. What is a "transitive dependency" (3NF violation)?
+5. When might you NOT want to fully normalize?
 
 ---
 
 ## Key Takeaways
 
-✅ 1NF: Atomic values, no repeating groups
-✅ 2NF: No partial dependencies on composite keys
-✅ 3NF: No transitive dependencies
-✅ Normalization reduces redundancy
-✅ Trade-off between normalization and query performance
+✅ **1NF:** One value per cell, no repeating groups
+✅ **2NF:** Every column depends on the WHOLE key (matters for composite keys)
+✅ **3NF:** No column depends on another non-key column
+✅ **The question:** "What does this column really describe?"
+✅ **Industry standard:** 3NF for transactional systems, denormalized for analytics
+✅ **Start normalized**, denormalize only with good reason
 
 ---
 
-## Next Lesson
+## Quick Reference Card
 
-In Lesson 3, you'll learn to draw Entity-Relationship diagrams!
+```
+┌─────────────────────────────────────────────────────────┐
+│                 NORMALIZATION CHEAT SHEET               │
+├─────────────────────────────────────────────────────────┤
+│ 1NF: Atomic values (one value per cell)                 │
+│      No repeating groups                                │
+│                                                         │
+│ 2NF: 1NF + No partial dependencies                      │
+│      (all columns depend on FULL key)                   │
+│                                                         │
+│ 3NF: 2NF + No transitive dependencies                   │
+│      (columns only depend on the key)                   │
+├─────────────────────────────────────────────────────────┤
+│ THE GOLDEN QUESTION:                                    │
+│ "Does this column describe the KEY or something else?"  │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## What's Next?
+
+In Lesson 3, you'll learn to draw **Entity-Relationship (ER) Diagrams** - the visual tool that data professionals use to design and communicate database structures.

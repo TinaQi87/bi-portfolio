@@ -310,6 +310,40 @@ def transform_orders(df):
 
 ---
 
+## Common Mistakes Beginners Make
+
+### Mistake 1: Transforming Before Understanding the Data
+**Problem:** You write transformation code, then discover the data has unexpected values.
+**Fix:** Always explore data first with `df.head()`, `df.info()`, `df.describe()`, `df.isnull().sum()`.
+
+### Mistake 2: Losing Data Silently
+**Problem:** Using `dropna()` removes rows but you don't know how many or why.
+**Fix:** Always log how many rows were removed and why.
+
+### Mistake 3: Chaining Too Many Operations
+**Problem:** Long chains of operations are hard to debug.
+**Fix:** Break into steps, validate after each major transformation.
+
+### Mistake 4: Not Handling Edge Cases
+**Problem:** Code works on sample data but fails on real data with weird values.
+**Fix:** Test with edge cases: empty strings, nulls, negative numbers, special characters.
+
+### Mistake 5: Forgetting to Convert Types
+**Problem:** Calculations fail because "100" is a string, not a number.
+**Fix:** Always explicitly convert types after extraction.
+
+---
+
+## Check Your Understanding
+
+1. What's the difference between `dropna()` and `fillna()`?
+2. How do you convert a string column to datetime?
+3. What does `errors="coerce"` do in type conversions?
+4. How do you apply different logic based on a condition?
+5. Why should you validate data after transformation?
+
+---
+
 ## Key Takeaways
 
 ✅ Clean data: duplicates, whitespace, case

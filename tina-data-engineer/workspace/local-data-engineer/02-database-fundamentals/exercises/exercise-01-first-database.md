@@ -278,6 +278,44 @@ DROP TABLE IF EXISTS departments;
 
 ---
 
+---
+
+## PostgreSQL Variant
+
+Try the same exercise in PostgreSQL to learn the syntax differences.
+
+```bash
+docker exec -it tina-postgres psql -U devuser -d devdb
+```
+
+**Key differences:**
+```sql
+-- Use SERIAL instead of AUTO_INCREMENT
+CREATE TABLE departments (
+    dept_id SERIAL PRIMARY KEY,
+    dept_name VARCHAR(100) NOT NULL,
+    location VARCHAR(100)
+);
+
+CREATE TABLE emp (
+    emp_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    hire_date DATE,
+    salary DECIMAL(10,2),
+    dept_id INT REFERENCES departments(dept_id)
+);
+
+-- Inserts are the same
+-- Queries are the same
+
+-- To exit PostgreSQL
+\q
+```
+
+---
+
 ## Next Exercise
 
 Move to Exercise 2: E-commerce Database Design

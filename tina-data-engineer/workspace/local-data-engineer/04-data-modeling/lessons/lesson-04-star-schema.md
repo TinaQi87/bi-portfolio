@@ -314,6 +314,38 @@ GROUP BY s.region, c.name
 ORDER BY s.region, total_spent DESC;
 ```
 
+## Common Mistakes with Star Schemas
+
+### Mistake 1: Using Normalized Design for Analytics
+**Problem:** Creating separate category and subcategory tables like in OLTP.
+**Why it's wrong:** Requires multiple joins, slows down queries.
+**Fix:** Denormalize into the dimension table.
+
+### Mistake 2: Forgetting the Date Dimension
+**Problem:** Storing dates directly in the fact table without a date dimension.
+**Why it's wrong:** Can't easily group by month, quarter, fiscal year.
+**Fix:** Always create a date dimension and link to it.
+
+### Mistake 3: Wrong Grain
+**Problem:** Mixing daily and monthly data in the same fact table.
+**Why it's wrong:** Aggregations will be wrong.
+**Fix:** One grain per fact table. Create separate tables if needed.
+
+### Mistake 4: Putting Descriptive Data in Fact Tables
+**Problem:** Storing customer_name or product_category in the fact table.
+**Why it's wrong:** Redundancy, harder to update.
+**Fix:** Descriptive data goes in dimensions. Facts only have keys and measures.
+
+---
+
+## Check Your Understanding
+
+1. What is the difference between OLTP and OLAP?
+2. Why is a star schema called a "star" schema?
+3. What goes in a fact table vs a dimension table?
+4. Why do we denormalize for analytics?
+5. What is a surrogate key and why use it?
+
 ---
 
 ## Key Takeaways

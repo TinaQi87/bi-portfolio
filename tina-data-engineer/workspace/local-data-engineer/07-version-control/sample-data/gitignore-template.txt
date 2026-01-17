@@ -1,0 +1,169 @@
+# ============================================
+# DATA ENGINEERING PROJECT .gitignore
+# ============================================
+
+# ============================================
+# DATA FILES - Too large for Git
+# ============================================
+*.csv
+*.parquet
+*.json
+*.xlsx
+*.xls
+*.avro
+*.orc
+data/
+raw_data/
+processed_data/
+output/
+exports/
+
+# ============================================
+# CREDENTIALS - NEVER commit these
+# ============================================
+.env
+.env.*
+!.env.template
+*.pem
+*.key
+*secret*
+*credential*
+*password*
+config/local.yaml
+config/secrets.yaml
+service-account*.json
+
+# ============================================
+# PYTHON
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+.eggs/
+*.egg-info/
+*.egg
+dist/
+build/
+.installed.cfg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ============================================
+# JUPYTER NOTEBOOKS
+# ============================================
+.ipynb_checkpoints/
+# Uncomment to ignore notebooks entirely:
+# *.ipynb
+
+# ============================================
+# IDE AND EDITORS
+# ============================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# OPERATING SYSTEM
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================
+# LOGS AND TEMP FILES
+# ============================================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+*.cache
+
+# ============================================
+# DATABASE
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================
+# TESTING AND COVERAGE
+# ============================================
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# ============================================
+# DOCUMENTATION BUILD
+# ============================================
+docs/_build/
+site/
+
+# ============================================
+# AIRFLOW
+# ============================================
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+logs/
+unittests.cfg
+
+# ============================================
+# SPARK
+# ============================================
+spark-warehouse/
+metastore_db/
+derby.log
+
+# ============================================
+# DBT
+# ============================================
+dbt_packages/
+dbt_modules/
+target/
+logs/
+
+# ============================================
+# TERRAFORM
+# ============================================
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+!*.tfvars.example
+
+# ============================================
+# MODELS AND ARTIFACTS
+# ============================================
+*.pkl
+*.pickle
+*.h5
+*.model
+models/
+artifacts/

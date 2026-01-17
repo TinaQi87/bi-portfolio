@@ -432,6 +432,59 @@ DROP TABLE IF EXISTS customers;
 
 ---
 
+---
+
+## PostgreSQL Variant
+
+Try building the same schema in PostgreSQL:
+
+```bash
+docker exec -it tina-postgres psql -U devuser -d devdb
+```
+
+**Key differences:**
+```sql
+-- SERIAL instead of AUTO_INCREMENT
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    city VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+    product_id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    stock_quantity INT DEFAULT 0,
+    category VARCHAR(100)
+);
+
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL REFERENCES customers(customer_id),
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'pending',
+    total_amount DECIMAL(10,2)
+);
+
+CREATE TABLE order_items (
+    item_id SERIAL PRIMARY KEY,
+    order_id INT NOT NULL REFERENCES orders(order_id),
+    product_id INT NOT NULL REFERENCES products(product_id),
+    quantity INT NOT NULL,
+    price_at_purchase DECIMAL(10,2) NOT NULL
+);
+
+-- Queries work the same way
+-- Use \q to exit
+```
+
+---
+
 ## Next Exercise
 
 Move to Exercise 3: Sales Analysis Queries

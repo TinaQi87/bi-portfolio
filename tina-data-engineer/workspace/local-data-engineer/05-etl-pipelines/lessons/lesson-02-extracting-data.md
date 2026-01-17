@@ -358,6 +358,40 @@ class Extractor:
 
 ---
 
+## Common Mistakes Beginners Make
+
+### Mistake 1: Not Handling Missing Files
+**Problem:** Pipeline crashes when expected file doesn't exist.
+**Fix:** Always check if file exists before reading, have a fallback plan.
+
+### Mistake 2: Assuming Data Types
+**Problem:** Code breaks because a "number" column has text values.
+**Fix:** Use `errors="coerce"` to handle bad values, validate after extraction.
+
+### Mistake 3: No Timeout on API Calls
+**Problem:** Pipeline hangs forever waiting for slow API.
+**Fix:** Always set `timeout` parameter on requests.
+
+### Mistake 4: Loading Entire Large Files into Memory
+**Problem:** Pipeline crashes with "out of memory" error.
+**Fix:** Use chunked reading for large files.
+
+### Mistake 5: Hardcoding Connection Strings
+**Problem:** Credentials visible in code, can't change without code change.
+**Fix:** Use environment variables or config files.
+
+---
+
+## Check Your Understanding
+
+1. What pandas function reads CSV files?
+2. How do you handle a CSV file that's too large for memory?
+3. What's the difference between `pd.read_sql()` and using a cursor?
+4. Why should you add metadata columns during extraction?
+5. What does `errors="coerce"` do in `pd.to_datetime()`?
+
+---
+
 ## Key Takeaways
 
 ✅ Use pandas for CSV, JSON, database extraction

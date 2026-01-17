@@ -132,6 +132,13 @@ By the end of this module, you will:
 
 ---
 
+### Exercise 6: Transactions Practice
+**Scenario**: Manage bank transfers with proper transaction handling.
+
+**Skills**: START TRANSACTION, COMMIT, ROLLBACK, SAVEPOINT, FOR UPDATE
+
+---
+
 ## Daily Data Engineer Tasks (Database Edition)
 
 ### Task 1: Morning Data Quality Check
@@ -370,8 +377,17 @@ CREATE TABLE order_items (
 ## Time Estimate
 
 - **Reading**: 4 hours
-- **Hands-on exercises**: 12-15 hours
-- **Total**: 16-19 hours (spread over 2 weeks)
+- **Hands-on exercises**: 14-17 hours
+- **Total**: 18-21 hours (spread over 2 weeks)
+
+---
+
+## Note on PostgreSQL Practice
+
+Each exercise includes a PostgreSQL variant section. Practice both databases to:
+- Understand syntax differences (SERIAL vs AUTO_INCREMENT, ILIKE vs LIKE)
+- Learn PostgreSQL-specific features (arrays, JSONB)
+- Be prepared for real-world jobs using either database
 
 ---
 
