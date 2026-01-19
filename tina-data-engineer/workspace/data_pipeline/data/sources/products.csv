@@ -1,0 +1,6 @@
+product_id,name,category,price,stock_quantity
+101,Laptop Pro,Electronics,1299.99,50
+102,Wireless Mouse,Electronics,29.99,200
+103,Office Chair,Furniture,249.99,75
+104,Standing Desk,Furniture,599.99,30
+105,USB-C Hub,Electronics,49.99,150

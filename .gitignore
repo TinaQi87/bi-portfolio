@@ -28,3 +28,4 @@ terraform.rc
 # ── (Allow lock file!) ────────────────────────────────────────────────────────
 # Terraform's dependency lock is meant to be checked in
 !**/*.terraform.lock.hcl
+tina-data-engineer/data/

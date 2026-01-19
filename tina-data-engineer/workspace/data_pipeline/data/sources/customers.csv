@@ -1,0 +1,6 @@
+customer_id,name,email,phone,created_at
+1,Alice Johnson,alice@email.com,+61400111222,2024-01-15
+2,Bob Smith,bob@email.com,+61400222333,2024-01-16
+3,Charlie Brown,charlie@email.com,+61400333444,2024-01-17
+4,Diana Ross,diana@email.com,+61400444555,2024-01-18
+5,Eve Wilson,,+61400555666,2024-01-19
