@@ -75,3 +75,81 @@ Errors: 0
 No errors
         
 2026-01-19 10:18:31,329 - WARNING - Slack webhook not configured
+2026-01-19 11:08:26,197 - INFO - ============================================================
+2026-01-19 11:08:26,197 - INFO - DATA PIPELINE STARTING
+2026-01-19 11:08:26,197 - INFO - Timestamp: 2026-01-19T11:08:26.197628
+2026-01-19 11:08:26,197 - INFO - ============================================================
+2026-01-19 11:08:26,202 - INFO - Found credentials in environment variables.
+2026-01-19 11:08:26,224 - INFO - Using MinIO at http://tina-minio:9000
+2026-01-19 11:08:26,225 - INFO - 🚀 Pipeline started
+2026-01-19 11:08:26,225 - WARNING - Slack webhook not configured
+2026-01-19 11:08:26,225 - INFO - ==================================================
+2026-01-19 11:08:26,225 - INFO - PHASE 1: EXTRACT → BRONZE
+2026-01-19 11:08:26,225 - INFO - ==================================================
+2026-01-19 11:08:26,230 - INFO - Connected to mysql
+2026-01-19 11:08:26,231 - INFO - Extracting 5 rows from customers
+2026-01-19 11:08:26,243 - INFO - Uploaded to Bronze: s3://data-lake/bronze/mysql_customers/year=2026/month=01/day=19/mysql_customers_110826.parquet
+2026-01-19 11:08:26,243 - INFO - Extracted 5/5 rows
+2026-01-19 11:08:26,244 - INFO - Extracting 7 rows from orders
+2026-01-19 11:08:26,247 - INFO - Uploaded to Bronze: s3://data-lake/bronze/mysql_orders/year=2026/month=01/day=19/mysql_orders_110826.parquet
+2026-01-19 11:08:26,247 - INFO - Extracted 7/7 rows
+2026-01-19 11:08:26,248 - INFO - Closed mysql connection
+2026-01-19 11:08:26,248 - INFO - Extracting CSV: /workspace/tina-data-engineer/workspace/data_pipeline/data/sources/customers.csv
+2026-01-19 11:08:26,249 - INFO - Extracted 5 rows from /workspace/tina-data-engineer/workspace/data_pipeline/data/sources/customers.csv
+2026-01-19 11:08:26,252 - INFO - Uploaded to Bronze: s3://data-lake/bronze/customers/year=2026/month=01/day=19/customers_110826.csv
+2026-01-19 11:08:26,252 - INFO - Extracting CSV: /workspace/tina-data-engineer/workspace/data_pipeline/data/sources/products.csv
+2026-01-19 11:08:26,253 - INFO - Extracted 5 rows from /workspace/tina-data-engineer/workspace/data_pipeline/data/sources/products.csv
+2026-01-19 11:08:26,255 - INFO - Uploaded to Bronze: s3://data-lake/bronze/products/year=2026/month=01/day=19/products_110826.csv
+2026-01-19 11:08:26,255 - INFO - Extracting from API: https://api.exchangerate-api.com/v4/latest/USD
+2026-01-19 11:08:26,799 - INFO - Extracted 1 records from API
+2026-01-19 11:08:26,810 - INFO - Uploaded to Bronze: s3://data-lake/bronze/exchange_rates/year=2026/month=01/day=19/exchange_rates_110826.json
+2026-01-19 11:08:26,810 - INFO - Bronze zone: 5 files uploaded
+2026-01-19 11:08:26,811 - INFO - ==================================================
+2026-01-19 11:08:26,811 - INFO - PHASE 2: BRONZE → SILVER (Cleansing)
+2026-01-19 11:08:26,811 - INFO - ==================================================
+2026-01-19 11:08:26,840 - INFO - Uploaded to Silver: s3://data-lake/silver/mysql_customers/year=2026/month=01/day=19/mysql_customers_110826.parquet
+2026-01-19 11:08:26,848 - INFO - Uploaded to Silver: s3://data-lake/silver/mysql_orders/year=2026/month=01/day=19/mysql_orders_110826.parquet
+2026-01-19 11:08:26,854 - INFO - Uploaded to Silver: s3://data-lake/silver/customers/year=2026/month=01/day=19/customers_110826.parquet
+2026-01-19 11:08:26,861 - INFO - Uploaded to Silver: s3://data-lake/silver/products/year=2026/month=01/day=19/products_110826.parquet
+2026-01-19 11:08:26,884 - INFO - Uploaded to Silver: s3://data-lake/silver/exchange_rates/year=2026/month=01/day=19/exchange_rates_110826.parquet
+2026-01-19 11:08:26,884 - INFO - Silver zone: 5 files processed
+2026-01-19 11:08:26,885 - INFO - ==================================================
+2026-01-19 11:08:26,885 - INFO - PHASE 3: SILVER → GOLD (Transformation)
+2026-01-19 11:08:26,885 - INFO - ==================================================
+2026-01-19 11:08:26,890 - INFO - Uploaded to Gold: s3://data-lake/gold/mysql_customers/year=2026/month=01/day=19/mysql_customers_110826.parquet
+2026-01-19 11:08:26,894 - INFO - Uploaded to Gold: s3://data-lake/gold/mysql_orders/year=2026/month=01/day=19/mysql_orders_110826.parquet
+2026-01-19 11:08:26,899 - INFO - Uploaded to Gold: s3://data-lake/gold/customers/year=2026/month=01/day=19/customers_110826.parquet
+2026-01-19 11:08:26,903 - INFO - Uploaded to Gold: s3://data-lake/gold/products/year=2026/month=01/day=19/products_110826.parquet
+2026-01-19 11:08:26,915 - INFO - Uploaded to Gold: s3://data-lake/gold/exchange_rates/year=2026/month=01/day=19/exchange_rates_110826.parquet
+2026-01-19 11:08:26,915 - INFO - Gold zone: 5 tables created
+2026-01-19 11:08:26,915 - INFO - ==================================================
+2026-01-19 11:08:26,915 - INFO - PHASE 4: GOLD → WAREHOUSE
+2026-01-19 11:08:26,915 - INFO - ==================================================
+2026-01-19 11:08:26,919 - INFO - Connected to PostgreSQL warehouse
+2026-01-19 11:08:26,925 - INFO - Created table public.mysql_customers
+2026-01-19 11:08:26,926 - INFO - Loaded 5/5 rows
+2026-01-19 11:08:26,926 - INFO - Completed loading 5 rows to public.mysql_customers
+2026-01-19 11:08:26,929 - INFO - Created table public.mysql_orders
+2026-01-19 11:08:26,930 - INFO - Loaded 7/7 rows
+2026-01-19 11:08:26,930 - INFO - Completed loading 7 rows to public.mysql_orders
+2026-01-19 11:08:26,933 - INFO - Created table public.customers
+2026-01-19 11:08:26,933 - INFO - Loaded 5/5 rows
+2026-01-19 11:08:26,934 - INFO - Completed loading 5 rows to public.customers
+2026-01-19 11:08:26,936 - INFO - Created table public.products
+2026-01-19 11:08:26,937 - INFO - Loaded 5/5 rows
+2026-01-19 11:08:26,937 - INFO - Completed loading 5 rows to public.products
+2026-01-19 11:08:26,941 - INFO - Created table public.exchange_rates
+2026-01-19 11:08:26,942 - INFO - Loaded 1/1 rows
+2026-01-19 11:08:26,942 - INFO - Completed loading 1 rows to public.exchange_rates
+2026-01-19 11:08:26,942 - INFO - Warehouse load completed
+2026-01-19 11:08:26,942 - INFO - 
+Pipeline Execution Summary
+==========================
+Status: success
+Duration: 0.72 seconds
+Rows Processed: 23
+Errors: 0
+
+No errors
+        
+2026-01-19 11:08:26,943 - WARNING - Slack webhook not configured

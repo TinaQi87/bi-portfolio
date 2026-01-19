@@ -10,16 +10,18 @@ from datetime import datetime
 from typing import List, Optional
 from botocore.exceptions import ClientError
 
-from config import AWS_REGION, S3_BUCKET, BRONZE_ZONE, SILVER_ZONE, GOLD_ZONE
+from config import AWS_REGION, S3_BUCKET, BRONZE_ZONE, SILVER_ZONE, GOLD_ZONE, S3_ENDPOINT_URL
 from notifications import notify, logger
 
 
 class S3Handler:
-    """Handle S3 operations for data lake."""
+    """Handle S3 operations for data lake (MinIO)."""
     
     def __init__(self, bucket: str = S3_BUCKET, region: str = AWS_REGION):
         self.bucket = bucket
-        self.s3 = boto3.client('s3', region_name=region)
+        self.s3 = boto3.client('s3', 
+                               endpoint_url=S3_ENDPOINT_URL,
+                               region_name=region)
     
     def _generate_path(self, zone: str, source: str, file_format: str) -> str:
         """Generate S3 path with date partitioning."""

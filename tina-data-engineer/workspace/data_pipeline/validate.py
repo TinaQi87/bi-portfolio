@@ -46,15 +46,21 @@ def test_postgres():
         return False
 
 def test_s3():
-    """Test S3 bucket access."""
-    print("\n3️⃣  Testing S3 Connection...")
+    """Test MinIO S3 bucket access."""
+    print("\n3️⃣  Testing MinIO Connection...")
     try:
         import boto3
-        from config import S3_BUCKET, AWS_REGION
-        s3 = boto3.client('s3', region_name=AWS_REGION)
+        from config import S3_BUCKET, AWS_REGION, S3_ENDPOINT_URL
         
-        # Check bucket exists
-        s3.head_bucket(Bucket=S3_BUCKET)
+        s3 = boto3.client('s3', endpoint_url=S3_ENDPOINT_URL, region_name=AWS_REGION)
+        
+        # Create bucket if not exists
+        try:
+            s3.head_bucket(Bucket=S3_BUCKET)
+        except:
+            s3.create_bucket(Bucket=S3_BUCKET)
+            print(f"   Created bucket: {S3_BUCKET}")
+        
         print(f"   ✅ Bucket exists: s3://{S3_BUCKET}")
         
         # List existing objects
@@ -72,7 +78,7 @@ def test_s3():
         print(f"   ✅ Write/Delete permissions OK")
         return True
     except Exception as e:
-        print(f"   ❌ S3 failed: {e}")
+        print(f"   ❌ MinIO failed: {e}")
         return False
 
 def test_csv_sources():

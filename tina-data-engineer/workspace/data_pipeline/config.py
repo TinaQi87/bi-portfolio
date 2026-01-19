@@ -4,9 +4,12 @@ All settings in one place for easy management
 """
 import os
 
-# AWS Settings
-AWS_REGION = os.getenv("AWS_REGION", "ap-southeast-2")
-S3_BUCKET = os.getenv("S3_BUCKET", "tina-data-lake-381324498760")
+# =============================================================================
+# S3-Compatible Storage (MinIO - local)
+# =============================================================================
+S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT", "http://tina-minio:9000")
+S3_BUCKET = os.getenv("S3_BUCKET", "data-lake")
+AWS_REGION = "us-east-1"  # MinIO default
 
 # S3 Zone Paths (Medallion Architecture)
 BRONZE_ZONE = "bronze"   # Raw data as-is

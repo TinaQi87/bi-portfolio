@@ -1,32 +1,28 @@
 # 🚀 Data Engineering Pipeline
 
-A **production-grade, working** ETL pipeline using the Medallion Architecture (Bronze → Silver → Gold).
+A **production-grade, fully local** ETL pipeline using the Medallion Architecture (Bronze → Silver → Gold).
 
-## ✅ Verified Working (2026-01-19)
+## ✅ Fully Local Setup - No Cloud Costs!
 
-```
-Pipeline Execution Summary
-==========================
-Status: SUCCESS ✅
-Duration: 2.26 seconds
-Rows Processed: 23
-Errors: 0
-```
+All components run in Docker:
+- **MySQL** - Source database
+- **PostgreSQL** - Data warehouse
+- **MinIO** - S3-compatible object storage (data lake)
 
 ## 📁 Project Structure
 
 ```
 data_pipeline/
-├── config.py              # Configuration (S3, databases)
+├── config.py              # Configuration
 ├── extractors.py          # Extract from DB, CSV, API
-├── s3_handler.py          # S3 data lake operations
+├── s3_handler.py          # MinIO data lake operations
 ├── transformers.py        # Data cleansing & transformation
 ├── loaders.py             # PostgreSQL warehouse loading
 ├── pipeline.py            # Main orchestrator
 ├── triggers.py            # Schedule & event triggers
 ├── notifications.py       # Logging & alerts
 ├── validate.py            # Pre-flight checks
-├── requirements.txt       # Dependencies
+├── run_in_docker.sh       # Helper script
 ├── data/sources/          # Sample CSV files
 └── tutorial_*.ipynb       # Learning notebooks (3 parts)
 ```
@@ -36,80 +32,69 @@ data_pipeline/
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        DATA SOURCES                              │
-│  MySQL (localhost:3306)  │  CSV Files  │  REST API              │
-│  • customers (5 rows)    │  • customers │  • exchange_rates     │
-│  • orders (7 rows)       │  • products  │                       │
+│  MySQL (tina-mysql:3306)  │  CSV Files  │  REST API             │
+│  • customers (5 rows)     │  • customers │  • exchange_rates    │
+│  • orders (7 rows)        │  • products  │                      │
 └──────────────────────────┴─────────────┴────────────────────────┘
                                    │
                                    ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│              S3 DATA LAKE: tina-data-lake-381324498760          │
+│              MinIO DATA LAKE (tina-minio:9000)                  │
+│              Bucket: data-lake                                   │
 ├─────────────────────────────────────────────────────────────────┤
 │  BRONZE (Raw)     →    SILVER (Cleaned)    →    GOLD (Ready)   │
-│  • 5 files             • 5 parquet files        • 5 parquet    │
-│  • parquet/csv/json    • standardized           • audit cols   │
-│  • partitioned         • validated              • transformed  │
+│  • parquet/csv/json    • parquet only           • parquet      │
+│  • as-is               • standardized           • audit cols   │
 └─────────────────────────────────────────────────────────────────┘
                                    │
                                    ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│              POSTGRESQL WAREHOUSE (localhost:5432)               │
-│  • mysql_customers (5 rows)    • products (5 rows)              │
-│  • mysql_orders (7 rows)       • exchange_rates (1 row)         │
-│  • customers (5 rows)                                            │
+│              POSTGRESQL WAREHOUSE (tina-postgres:5432)          │
+│  • mysql_customers    • products                                 │
+│  • mysql_orders       • exchange_rates                          │
+│  • customers                                                     │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-- Docker containers running: `tina-devtools`, `tina-mysql`, `tina-postgres`
-- AWS credentials configured on Mac (`~/.aws/credentials`)
+Docker containers running:
+```bash
+docker ps  # Should show: tina-devtools, tina-mysql, tina-postgres, tina-minio
+```
 
-### 2. Run in Docker (Recommended)
+### 2. Run Pipeline
 
 ```bash
 cd tina-data-engineer/workspace/data_pipeline
 
-# Validate setup
+# Validate all connections
 ./run_in_docker.sh validate
 
-# Run pipeline
+# Run full pipeline
 ./run_in_docker.sh pipeline
 
 # Open shell in container
 ./run_in_docker.sh shell
 ```
 
-### 3. Or Run Manually in Docker
-
-```bash
-# Set AWS credentials and run
-docker exec -e AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
-            -e AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) \
-            -e AWS_DEFAULT_REGION=ap-southeast-2 \
-            -w /workspace/tina-data-engineer/workspace/data_pipeline \
-            tina-devtools python3 pipeline.py
-```
-
-### 4. Jupyter Notebooks
-Jupyter is running at http://localhost:8888
-Navigate to: `tina-data-engineer/workspace/data_pipeline/tutorial_*.ipynb`
+### 3. View Data in MinIO
+Open http://localhost:9001 in browser
+- Username: `minioadmin`
+- Password: `minioadmin`
 
 ## 📚 Tutorial Notebooks
 
 Learn Python for Data Engineering through this real, working pipeline:
 
-| Notebook | Topics | Key Concepts |
-|----------|--------|--------------|
-| `tutorial_part1_extract.ipynb` | Config, Extraction | `os.getenv`, decorators, generators, `**kwargs` |
-| `tutorial_part2_s3_cleaning.ipynb` | S3, Cleansing | `boto3`, Parquet, lambda functions, partitioning |
-| `tutorial_part3_transform_load.ipynb` | Transform, Load | `dataclass`, `Enum`, batch inserts, logging |
+| Notebook | Topics |
+|----------|--------|
+| `tutorial_part1_extract.ipynb` | Config, decorators, generators, extraction |
+| `tutorial_part2_s3_cleaning.ipynb` | S3/MinIO operations, data cleansing |
+| `tutorial_part3_transform_load.ipynb` | Transformation, loading, orchestration |
 
-**Run notebooks in Docker via Jupyter:**
-1. Open http://localhost:8888 (Jupyter is already running in tina-devtools)
-2. Navigate to `tina-data-engineer/workspace/data_pipeline/`
-3. Open any `tutorial_*.ipynb` file
+Open Jupyter at http://localhost:8888
 
 ## 🔑 Key Python Patterns
 
@@ -122,37 +107,11 @@ Learn Python for Data Engineering through this real, working pipeline:
 | Enum | `class Status(Enum)` | Type-safe status codes |
 | Lambda | `lambda x: x > 0` | Validation rules |
 
-## 🔧 Configuration
+## 📊 Pipeline Results
 
-All settings in `config.py`:
-
-```python
-S3_BUCKET = "tina-data-lake-381324498760"
-AWS_REGION = "ap-southeast-2"
-
-POSTGRES_CONFIG = {
-    "host": "localhost",
-    "port": 5432,
-    "database": "devdb",
-    ...
-}
 ```
-
-## 📊 Monitoring
-
-- **Logs**: `pipeline.log`
-- **Exit codes**: 0=success, 1=failure, 2=partial
-- **Slack**: Configure `SLACK_WEBHOOK` environment variable
-
-## 🔄 Scheduling
-
-```bash
-# Run daily at 2 AM
-python3 triggers.py schedule
-
-# Watch for new files
-python3 triggers.py watch
-
-# Manual run
-python3 triggers.py manual
+Status: SUCCESS ✅
+Duration: ~0.7 seconds
+Rows Processed: 23
+Errors: 0
 ```
