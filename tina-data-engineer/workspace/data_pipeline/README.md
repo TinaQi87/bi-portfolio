@@ -1,13 +1,14 @@
 # 🚀 Data Engineering Pipeline
 
-A **production-grade, fully local** ETL pipeline using the Medallion Architecture (Bronze → Silver → Gold).
+A **production-grade, fully local** ETL pipeline with incremental loading and dbt transformations.
 
-## ✅ Fully Local Setup - No Cloud Costs!
+## ✅ Features
 
-All components run in Docker:
-- **MySQL** - Source database
-- **PostgreSQL** - Data warehouse
-- **MinIO** - S3-compatible object storage (data lake)
+- **Medallion Architecture**: Bronze → Silver → Gold
+- **Incremental Loading**: Only process new/changed data
+- **dbt Transformations**: SQL-based, version-controlled transforms
+- **Delta Data Generator**: Simulate real-world data arrival
+- **100% Local**: No cloud costs (MinIO, Docker)
 
 ## 📁 Project Structure
 
@@ -16,102 +17,154 @@ data_pipeline/
 ├── config.py              # Configuration
 ├── extractors.py          # Extract from DB, CSV, API
 ├── s3_handler.py          # MinIO data lake operations
-├── transformers.py        # Data cleansing & transformation
-├── loaders.py             # PostgreSQL warehouse loading
-├── pipeline.py            # Main orchestrator
-├── triggers.py            # Schedule & event triggers
-├── notifications.py       # Logging & alerts
-├── validate.py            # Pre-flight checks
-├── run_in_docker.sh       # Helper script
-├── data/sources/          # Sample CSV files
-└── tutorial_*.ipynb       # Learning notebooks (3 parts)
+├── transformers.py        # Data cleansing
+├── loaders.py             # PostgreSQL loading
+├── pipeline.py            # Main ETL orchestrator
+├── generate_delta.py      # Generate new test data
+├── verify.py              # Validate record counts
+├── run_in_docker.sh       # CLI helper script
+├── dbt_project/           # dbt transformations
+│   ├── models/staging/    # Clean raw data (views)
+│   └── models/marts/      # Business tables (incremental)
+└── tutorial_*.ipynb       # Learning notebooks
 ```
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        DATA SOURCES                              │
-│  MySQL (tina-mysql:3306)  │  CSV Files  │  REST API             │
-│  • customers (5 rows)     │  • customers │  • exchange_rates    │
-│  • orders (7 rows)        │  • products  │                      │
-└──────────────────────────┴─────────────┴────────────────────────┘
-                                   │
-                                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│              MinIO DATA LAKE (tina-minio:9000)                  │
-│              Bucket: data-lake                                   │
-├─────────────────────────────────────────────────────────────────┤
-│  BRONZE (Raw)     →    SILVER (Cleaned)    →    GOLD (Ready)   │
-│  • parquet/csv/json    • parquet only           • parquet      │
-│  • as-is               • standardized           • audit cols   │
+│  generate_delta.py                                               │
+│  (Simulates daily new data)                                      │
 └─────────────────────────────────────────────────────────────────┘
                                    │
                                    ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│              POSTGRESQL WAREHOUSE (tina-postgres:5432)          │
-│  • mysql_customers    • products                                 │
-│  • mysql_orders       • exchange_rates                          │
-│  • customers                                                     │
+│  MySQL Source (tina-mysql:3306)                                  │
+│  • customers    • orders                                         │
+└─────────────────────────────────────────────────────────────────┘
+                                   │
+                          pipeline.py (Extract)
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  MinIO Data Lake (tina-minio:9000)                              │
+│  bucket: data-lake                                               │
+├─────────────────────────────────────────────────────────────────┤
+│  bronze/     →     silver/      →      gold/                    │
+│  (raw)            (cleaned)           (transformed)             │
+└─────────────────────────────────────────────────────────────────┘
+                                   │
+                          pipeline.py (Load raw)
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PostgreSQL Warehouse (tina-postgres:5432)                      │
+├─────────────────────────────────────────────────────────────────┤
+│  Raw Tables (from pipeline):                                     │
+│  • mysql_customers    • mysql_orders                            │
+├─────────────────────────────────────────────────────────────────┤
+│  dbt Staging (views):                                            │
+│  • stg_customers      • stg_orders                              │
+├─────────────────────────────────────────────────────────────────┤
+│  dbt Marts (incremental):                                        │
+│  • dim_customers      • fact_orders                             │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
 
-### 1. Prerequisites
-Docker containers running:
-```bash
-docker ps  # Should show: tina-devtools, tina-mysql, tina-postgres, tina-minio
-```
-
-### 2. Run Pipeline
-
 ```bash
 cd tina-data-engineer/workspace/data_pipeline
 
-# Validate all connections
-./run_in_docker.sh validate
-
-# Run full pipeline
+# Initial setup - run pipeline + dbt
 ./run_in_docker.sh pipeline
-
-# Open shell in container
-./run_in_docker.sh shell
+./run_in_docker.sh dbt
+./run_in_docker.sh verify
 ```
 
-### 3. View Data in MinIO
-Open http://localhost:9001 in browser
-- Username: `minioadmin`
-- Password: `minioadmin`
+## 🔄 Daily Incremental Workflow
 
-## 📚 Tutorial Notebooks
+```bash
+# Simulate new data arriving (like real production)
+./run_in_docker.sh generate    # Add new customers & orders
 
-Learn Python for Data Engineering through this real, working pipeline:
+# Process the delta
+./run_in_docker.sh pipeline    # Extract & load new data
+./run_in_docker.sh dbt         # Transform incrementally
+./run_in_docker.sh verify      # Validate counts match
+
+# Or run everything in one command:
+./run_in_docker.sh full
+```
+
+## 📋 Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `./run_in_docker.sh validate` | Check all connections |
+| `./run_in_docker.sh pipeline` | Run ETL pipeline |
+| `./run_in_docker.sh generate` | Generate delta data |
+| `./run_in_docker.sh dbt` | Run dbt transformations |
+| `./run_in_docker.sh verify` | Check record counts |
+| `./run_in_docker.sh full` | Run complete cycle |
+| `./run_in_docker.sh shell` | Open container shell |
+
+## 🔧 dbt Models
+
+### Staging (Views)
+- `stg_customers` - Clean customer data
+- `stg_orders` - Clean order data
+
+### Marts (Incremental)
+- `dim_customers` - Customer dimension (SCD Type 1)
+- `fact_orders` - Order facts (append-only)
+
+```sql
+-- Example: dim_customers uses incremental strategy
+{{ config(materialized='incremental', unique_key='customer_id') }}
+
+SELECT * FROM {{ ref('stg_customers') }}
+{% if is_incremental() %}
+    WHERE _extracted_at > (SELECT MAX(last_updated) FROM {{ this }})
+{% endif %}
+```
+
+## 📊 Example Output
+
+```
+📊 DATA PIPELINE VERIFICATION
+============================================================
+1️⃣  MySQL Source:
+   • customers: 9 rows
+   • orders: 15 rows
+
+2️⃣  MinIO Data Lake:
+   • bronze: 20 files
+   • silver: 20 files
+   • gold: 20 files
+
+3️⃣  PostgreSQL Warehouse:
+   • mysql_customers: 9 rows
+   • mysql_orders: 15 rows
+   • dim_customers: 9 rows
+   • fact_orders: 15 rows
+
+✅ All counts match!
+```
+
+## 📚 Tutorials
 
 | Notebook | Topics |
 |----------|--------|
-| `tutorial_part1_extract.ipynb` | Config, decorators, generators, extraction |
-| `tutorial_part2_s3_cleaning.ipynb` | S3/MinIO operations, data cleansing |
-| `tutorial_part3_transform_load.ipynb` | Transformation, loading, orchestration |
+| `tutorial_part1_extract.ipynb` | Config, extraction, generators |
+| `tutorial_part2_s3_cleaning.ipynb` | MinIO, data cleansing |
+| `tutorial_part3_transform_load.ipynb` | Loading, dbt, incremental |
 
-Open Jupyter at http://localhost:8888
+## 🔑 Key Patterns
 
-## 🔑 Key Python Patterns
-
-| Pattern | Syntax | Use Case |
-|---------|--------|----------|
-| Retry Decorator | `@retry_on_failure()` | Network resilience |
-| Generator | `yield batch` | Memory-efficient extraction |
-| **kwargs | `func(**config)` | Flexible DB connections |
-| Dataclass | `@dataclass` | Structured results |
-| Enum | `class Status(Enum)` | Type-safe status codes |
-| Lambda | `lambda x: x > 0` | Validation rules |
-
-## 📊 Pipeline Results
-
-```
-Status: SUCCESS ✅
-Duration: ~0.7 seconds
-Rows Processed: 23
-Errors: 0
-```
+| Pattern | Usage |
+|---------|-------|
+| Incremental Load | Only process new records |
+| dbt Incremental | Merge/upsert in warehouse |
+| Watermark | Track `_extracted_at` timestamp |
+| Idempotent | Re-running won't create duplicates |

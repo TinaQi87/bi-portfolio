@@ -81,8 +81,12 @@ class PostgresLoader:
             self.connect()
         
         if if_exists == 'replace':
+            # Use TRUNCATE instead of DROP to preserve dependent views
             with self.conn.cursor() as cur:
-                cur.execute(f"DROP TABLE IF EXISTS {schema}.{table_name}")
+                try:
+                    cur.execute(f"TRUNCATE TABLE {schema}.{table_name}")
+                except:
+                    pass  # Table doesn't exist yet
             self.conn.commit()
         
         self.create_table_from_df(df, table_name, schema)

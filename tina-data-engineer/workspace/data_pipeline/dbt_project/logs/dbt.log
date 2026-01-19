@@ -1,0 +1,1290 @@
+[0m11:24:39.975419 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaca6a7e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffabdb8b90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffabde3170>]}
+
+
+============================== 11:24:39.976780 | b777d849-d76a-4558-9606-4be26759724b ==============================
+[0m11:24:39.976780 [info ] [MainThread]: Running with dbt=1.11.2
+[0m11:24:39.977025 [debug] [MainThread]: running dbt with arguments {'debug': 'False', 'log_cache_events': 'False', 'send_anonymous_usage_stats': 'True', 'warn_error': 'None', 'printer_width': '80', 'indirect_selection': 'eager', 'cache_selected_only': 'False', 'version_check': 'True', 'log_format': 'default', 'log_path': '/workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/logs', 'quiet': 'False', 'target_path': 'None', 'write_json': 'True', 'empty': 'False', 'profiles_dir': '.', 'partial_parse': 'True', 'fail_fast': 'False', 'invocation_command': 'dbt run --profiles-dir .', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'introspect': 'True', 'use_experimental_parser': 'False', 'static_parser': 'True', 'no_print': 'None', 'use_colors': 'True'}
+[0m11:24:40.027877 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaea47bc0>]}
+[0m11:24:40.046010 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffabc75970>]}
+[0m11:24:40.046285 [info ] [MainThread]: Registered adapter: postgres=1.10.0
+[0m11:24:40.071001 [debug] [MainThread]: checksum: 3d40d8bbe1bef07db1c24822f2dbfff8bc07f2a48ed4fe2658a40653aec0b54b, vars: {}, profile: , target: , version: 1.11.2
+[0m11:24:40.071411 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m11:24:40.071552 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaacee000>]}
+[0m11:24:40.397106 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaab6ea20>]}
+[0m11:24:40.418943 [debug] [MainThread]: Wrote artifact WritableManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/manifest.json
+[0m11:24:40.419969 [debug] [MainThread]: Wrote artifact SemanticManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/semantic_manifest.json
+[0m11:24:40.427742 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaab3d9d0>]}
+[0m11:24:40.427900 [info ] [MainThread]: Found 4 models, 2 sources, 464 macros
+[0m11:24:40.428034 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa91a61e0>]}
+[0m11:24:40.428730 [info ] [MainThread]: 
+[0m11:24:40.428885 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m11:24:40.429019 [info ] [MainThread]: 
+[0m11:24:40.429248 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m11:24:40.430576 [debug] [ThreadPool]: Acquiring new postgres connection 'list_devdb'
+[0m11:24:40.442109 [debug] [ThreadPool]: Using postgres connection "list_devdb"
+[0m11:24:40.442256 [debug] [ThreadPool]: On list_devdb: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "list_devdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m11:24:40.442404 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m11:24:40.447020 [debug] [ThreadPool]: SQL status: SELECT 4 in 0.005 seconds
+[0m11:24:40.447478 [debug] [ThreadPool]: On list_devdb: Close
+[0m11:24:40.448041 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_devdb, now list_devdb_public)
+[0m11:24:40.449955 [debug] [ThreadPool]: Using postgres connection "list_devdb_public"
+[0m11:24:40.450087 [debug] [ThreadPool]: On list_devdb_public: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "list_devdb_public"} */
+select
+      'devdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public'
+    union all
+    select
+      'devdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public'
+    union all
+    select
+      'devdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public'
+  
+[0m11:24:40.450189 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m11:24:40.456931 [debug] [ThreadPool]: SQL status: SELECT 5 in 0.007 seconds
+[0m11:24:40.457379 [debug] [ThreadPool]: On list_devdb_public: ROLLBACK
+[0m11:24:40.457551 [debug] [ThreadPool]: On list_devdb_public: Close
+[0m11:24:40.459285 [debug] [MainThread]: Using postgres connection "master"
+[0m11:24:40.459444 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m11:24:40.459586 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m11:24:40.465193 [debug] [MainThread]: SQL status: SELECT 0 in 0.006 seconds
+[0m11:24:40.465606 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa8545a60>]}
+[0m11:24:40.465762 [debug] [MainThread]: On master: ROLLBACK
+[0m11:24:40.465911 [debug] [MainThread]: On master: COMMIT
+[0m11:24:40.466011 [debug] [MainThread]: Using postgres connection "master"
+[0m11:24:40.466102 [debug] [MainThread]: On master: COMMIT
+[0m11:24:40.466255 [debug] [MainThread]: SQL status: COMMIT in 0.000 seconds
+[0m11:24:40.466362 [debug] [MainThread]: On master: Close
+[0m11:24:40.469755 [debug] [Thread-1 (]: Began running node model.tina_pipeline.stg_customers
+[0m11:24:40.469901 [debug] [Thread-2 (]: Began running node model.tina_pipeline.stg_orders
+[0m11:24:40.470064 [info ] [Thread-1 (]: 1 of 4 START sql view model public.stg_customers ............................... [RUN]
+[0m11:24:40.470291 [info ] [Thread-2 (]: 2 of 4 START sql view model public.stg_orders .................................. [RUN]
+[0m11:24:40.470498 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_devdb_public, now model.tina_pipeline.stg_customers)
+[0m11:24:40.470682 [debug] [Thread-2 (]: Acquiring new postgres connection 'model.tina_pipeline.stg_orders'
+[0m11:24:40.470811 [debug] [Thread-1 (]: Began compiling node model.tina_pipeline.stg_customers
+[0m11:24:40.470947 [debug] [Thread-2 (]: Began compiling node model.tina_pipeline.stg_orders
+[0m11:24:40.473291 [debug] [Thread-1 (]: Writing injected SQL for node "model.tina_pipeline.stg_customers"
+[0m11:24:40.474181 [debug] [Thread-2 (]: Writing injected SQL for node "model.tina_pipeline.stg_orders"
+[0m11:24:40.475676 [debug] [Thread-2 (]: Began executing node model.tina_pipeline.stg_orders
+[0m11:24:40.481347 [debug] [Thread-1 (]: Began executing node model.tina_pipeline.stg_customers
+[0m11:24:40.486420 [debug] [Thread-2 (]: Writing runtime sql for node "model.tina_pipeline.stg_orders"
+[0m11:24:40.487528 [debug] [Thread-1 (]: Writing runtime sql for node "model.tina_pipeline.stg_customers"
+[0m11:24:40.489917 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:24:40.490070 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+
+  create view "devdb"."public"."stg_customers__dbt_tmp"
+    
+    
+  as (
+    -- Staging: Clean customer data from raw table
+-- This is a VIEW - always reflects latest data
+
+SELECT
+    customer_id,
+    TRIM(name) as name,
+    LOWER(TRIM(email)) as email,
+    TRIM(city) as city,
+    _extracted_at,
+    _source_table
+FROM "devdb"."public"."mysql_customers"
+WHERE customer_id IS NOT NULL
+  );
+[0m11:24:40.490249 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m11:24:40.490488 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:24:40.490722 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+
+  create view "devdb"."public"."stg_orders__dbt_tmp"
+    
+    
+  as (
+    -- Staging: Clean orders data from raw table
+
+SELECT
+    order_id,
+    customer_id,
+    order_date,
+    total_amount,
+    _extracted_at,
+    _source_table
+FROM "devdb"."public"."mysql_orders"
+WHERE order_id IS NOT NULL
+  AND total_amount > 0
+  );
+[0m11:24:40.490873 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m11:24:40.498723 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.008 seconds
+[0m11:24:40.498857 [debug] [Thread-2 (]: SQL status: CREATE VIEW in 0.008 seconds
+[0m11:24:40.501140 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:24:40.502138 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:24:40.502347 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+alter table "devdb"."public"."stg_customers__dbt_tmp" rename to "stg_customers"
+[0m11:24:40.502519 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+alter table "devdb"."public"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m11:24:40.502828 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:24:40.502944 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:24:40.507298 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: COMMIT
+[0m11:24:40.507756 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: COMMIT
+[0m11:24:40.507911 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:24:40.508047 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:24:40.508175 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: COMMIT
+[0m11:24:40.508309 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: COMMIT
+[0m11:24:40.509051 [debug] [Thread-1 (]: SQL status: COMMIT in 0.001 seconds
+[0m11:24:40.510939 [debug] [Thread-1 (]: Applying DROP to: "devdb"."public"."stg_customers__dbt_backup"
+[0m11:24:40.511077 [debug] [Thread-2 (]: SQL status: COMMIT in 0.003 seconds
+[0m11:24:40.512518 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:24:40.513272 [debug] [Thread-2 (]: Applying DROP to: "devdb"."public"."stg_orders__dbt_backup"
+[0m11:24:40.513422 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+drop view if exists "devdb"."public"."stg_customers__dbt_backup" cascade
+[0m11:24:40.514092 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:24:40.514347 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.000 seconds
+[0m11:24:40.514460 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+drop view if exists "devdb"."public"."stg_orders__dbt_backup" cascade
+[0m11:24:40.515266 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: Close
+[0m11:24:40.515531 [debug] [Thread-2 (]: SQL status: DROP VIEW in 0.000 seconds
+[0m11:24:40.516068 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffacaaca40>]}
+[0m11:24:40.516527 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: Close
+[0m11:24:40.516761 [info ] [Thread-1 (]: 1 of 4 OK created sql view model public.stg_customers .......................... [[32mCREATE VIEW[0m in 0.05s]
+[0m11:24:40.517017 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa8611700>]}
+[0m11:24:40.517199 [debug] [Thread-1 (]: Finished running node model.tina_pipeline.stg_customers
+[0m11:24:40.517435 [info ] [Thread-2 (]: 2 of 4 OK created sql view model public.stg_orders ............................. [[32mCREATE VIEW[0m in 0.05s]
+[0m11:24:40.517797 [debug] [Thread-2 (]: Finished running node model.tina_pipeline.stg_orders
+[0m11:24:40.518055 [debug] [Thread-4 (]: Began running node model.tina_pipeline.dim_customers
+[0m11:24:40.518181 [debug] [Thread-3 (]: Began running node model.tina_pipeline.fact_orders
+[0m11:24:40.518373 [info ] [Thread-4 (]: 3 of 4 START sql incremental model public.dim_customers ........................ [RUN]
+[0m11:24:40.518650 [info ] [Thread-3 (]: 4 of 4 START sql incremental model public.fact_orders .......................... [RUN]
+[0m11:24:40.518881 [debug] [Thread-4 (]: Acquiring new postgres connection 'model.tina_pipeline.dim_customers'
+[0m11:24:40.519061 [debug] [Thread-3 (]: Acquiring new postgres connection 'model.tina_pipeline.fact_orders'
+[0m11:24:40.519205 [debug] [Thread-4 (]: Began compiling node model.tina_pipeline.dim_customers
+[0m11:24:40.519372 [debug] [Thread-3 (]: Began compiling node model.tina_pipeline.fact_orders
+[0m11:24:40.520640 [debug] [Thread-4 (]: Writing injected SQL for node "model.tina_pipeline.dim_customers"
+[0m11:24:40.521797 [debug] [Thread-3 (]: Writing injected SQL for node "model.tina_pipeline.fact_orders"
+[0m11:24:40.522644 [debug] [Thread-4 (]: Began executing node model.tina_pipeline.dim_customers
+[0m11:24:40.522812 [debug] [Thread-3 (]: Began executing node model.tina_pipeline.fact_orders
+[0m11:24:40.535020 [debug] [Thread-4 (]: Writing runtime sql for node "model.tina_pipeline.dim_customers"
+[0m11:24:40.536135 [debug] [Thread-3 (]: Writing runtime sql for node "model.tina_pipeline.fact_orders"
+[0m11:24:40.537008 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:24:40.537168 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      
+  
+    
+
+  create  table "devdb"."public"."dim_customers"
+  
+  
+    as
+  
+  (
+    -- Dimension: Customers (SCD Type 1 - Upsert)
+-- Incremental: Only process new/changed records
+
+
+
+SELECT
+    customer_id,
+    name,
+    email,
+    city,
+    _extracted_at as last_updated,
+    CURRENT_TIMESTAMP as dbt_updated_at
+FROM "devdb"."public"."stg_customers"
+
+
+  );
+  
+  
+[0m11:24:40.537310 [debug] [Thread-3 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:24:40.537417 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m11:24:40.537557 [debug] [Thread-3 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      
+  
+    
+
+  create  table "devdb"."public"."fact_orders"
+  
+  
+    as
+  
+  (
+    -- Fact: Orders (Append new records only)
+-- Incremental: Add new orders, don't update existing
+
+
+
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    o.total_amount,
+    o._extracted_at as loaded_at,
+    CURRENT_TIMESTAMP as dbt_updated_at
+FROM "devdb"."public"."stg_orders" o
+
+
+  );
+  
+  
+[0m11:24:40.537778 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m11:24:40.545610 [debug] [Thread-3 (]: SQL status: SELECT 7 in 0.008 seconds
+[0m11:24:40.545752 [debug] [Thread-4 (]: SQL status: SELECT 5 in 0.008 seconds
+[0m11:24:40.547336 [debug] [Thread-3 (]: On model.tina_pipeline.fact_orders: COMMIT
+[0m11:24:40.547826 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: COMMIT
+[0m11:24:40.547985 [debug] [Thread-3 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:24:40.548131 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:24:40.548298 [debug] [Thread-3 (]: On model.tina_pipeline.fact_orders: COMMIT
+[0m11:24:40.548505 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: COMMIT
+[0m11:24:40.548996 [debug] [Thread-3 (]: SQL status: COMMIT in 0.000 seconds
+[0m11:24:40.549355 [debug] [Thread-3 (]: On model.tina_pipeline.fact_orders: Close
+[0m11:24:40.549643 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa86c8590>]}
+[0m11:24:40.549461 [debug] [Thread-4 (]: SQL status: COMMIT in 0.001 seconds
+[0m11:24:40.549894 [info ] [Thread-3 (]: 4 of 4 OK created sql incremental model public.fact_orders ..................... [[32mSELECT 7[0m in 0.03s]
+[0m11:24:40.550250 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: Close
+[0m11:24:40.550465 [debug] [Thread-3 (]: Finished running node model.tina_pipeline.fact_orders
+[0m11:24:40.550682 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b777d849-d76a-4558-9606-4be26759724b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa8541f70>]}
+[0m11:24:40.550984 [info ] [Thread-4 (]: 3 of 4 OK created sql incremental model public.dim_customers ................... [[32mSELECT 5[0m in 0.03s]
+[0m11:24:40.551273 [debug] [Thread-4 (]: Finished running node model.tina_pipeline.dim_customers
+[0m11:24:40.551896 [debug] [MainThread]: On master: COMMIT
+[0m11:24:40.552011 [debug] [MainThread]: Using postgres connection "master"
+[0m11:24:40.552103 [debug] [MainThread]: On master: COMMIT
+[0m11:24:40.552180 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m11:24:40.555183 [debug] [MainThread]: SQL status: COMMIT in 0.003 seconds
+[0m11:24:40.555300 [debug] [MainThread]: On master: Close
+[0m11:24:40.555424 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m11:24:40.555527 [debug] [MainThread]: Connection 'model.tina_pipeline.stg_customers' was properly closed.
+[0m11:24:40.555640 [debug] [MainThread]: Connection 'model.tina_pipeline.stg_orders' was properly closed.
+[0m11:24:40.555732 [debug] [MainThread]: Connection 'model.tina_pipeline.dim_customers' was properly closed.
+[0m11:24:40.555811 [debug] [MainThread]: Connection 'model.tina_pipeline.fact_orders' was properly closed.
+[0m11:24:40.555953 [info ] [MainThread]: 
+[0m11:24:40.556066 [info ] [MainThread]: Finished running 2 incremental models, 2 view models in 0 hours 0 minutes and 0.13 seconds (0.13s).
+[0m11:24:40.556467 [debug] [MainThread]: Command end result
+[0m11:24:40.566921 [debug] [MainThread]: Wrote artifact WritableManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/manifest.json
+[0m11:24:40.567607 [debug] [MainThread]: Wrote artifact SemanticManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/semantic_manifest.json
+[0m11:24:40.569625 [debug] [MainThread]: Wrote artifact RunExecutionResult to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/run_results.json
+[0m11:24:40.569720 [info ] [MainThread]: 
+[0m11:24:40.569859 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m11:24:40.570018 [info ] [MainThread]: 
+[0m11:24:40.570201 [info ] [MainThread]: Done. PASS=4 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=4
+[0m11:24:40.570661 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 0.6125218, "process_in_blocks": "12152", "process_kernel_time": 0.090557, "process_mem_max_rss": "146948", "process_out_blocks": "3316", "process_user_time": 1.335216}
+[0m11:24:40.570825 [debug] [MainThread]: Command `dbt run` succeeded at 11:24:40.570791 after 0.61 seconds
+[0m11:24:40.570947 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffac0723f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaa7562a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffaa7d6c60>]}
+[0m11:24:40.571057 [debug] [MainThread]: Flushing usage events
+[0m11:24:41.810763 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m11:25:23.282866 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff87242a80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff89da81d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff87f31550>]}
+
+
+============================== 11:25:23.284186 | 55388bc4-25c9-4584-a49f-01fcd8448a05 ==============================
+[0m11:25:23.284186 [info ] [MainThread]: Running with dbt=1.11.2
+[0m11:25:23.284441 [debug] [MainThread]: running dbt with arguments {'profiles_dir': '.', 'log_format': 'default', 'printer_width': '80', 'partial_parse': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'use_experimental_parser': 'False', 'send_anonymous_usage_stats': 'True', 'log_path': '/workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/logs', 'indirect_selection': 'eager', 'static_parser': 'True', 'no_print': 'None', 'target_path': 'None', 'quiet': 'False', 'invocation_command': 'dbt run --profiles-dir .', 'debug': 'False', 'version_check': 'True', 'introspect': 'True', 'cache_selected_only': 'False', 'empty': 'False', 'log_cache_events': 'False', 'warn_error': 'None', 'use_colors': 'True', 'write_json': 'True', 'fail_fast': 'False'}
+[0m11:25:23.332226 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff862af6e0>]}
+[0m11:25:23.350363 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff87f32300>]}
+[0m11:25:23.350645 [info ] [MainThread]: Registered adapter: postgres=1.10.0
+[0m11:25:23.370422 [debug] [MainThread]: checksum: 3d40d8bbe1bef07db1c24822f2dbfff8bc07f2a48ed4fe2658a40653aec0b54b, vars: {}, profile: , target: , version: 1.11.2
+[0m11:25:23.402635 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m11:25:23.402770 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m11:25:23.402921 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m11:25:23.413071 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8619da30>]}
+[0m11:25:23.437411 [debug] [MainThread]: Wrote artifact WritableManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/manifest.json
+[0m11:25:23.438081 [debug] [MainThread]: Wrote artifact SemanticManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/semantic_manifest.json
+[0m11:25:23.442735 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff85e65670>]}
+[0m11:25:23.442944 [info ] [MainThread]: Found 4 models, 2 sources, 464 macros
+[0m11:25:23.443133 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff85eddbe0>]}
+[0m11:25:23.443935 [info ] [MainThread]: 
+[0m11:25:23.444097 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m11:25:23.444257 [info ] [MainThread]: 
+[0m11:25:23.444525 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m11:25:23.445835 [debug] [ThreadPool]: Acquiring new postgres connection 'list_devdb'
+[0m11:25:23.456531 [debug] [ThreadPool]: Using postgres connection "list_devdb"
+[0m11:25:23.456688 [debug] [ThreadPool]: On list_devdb: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "list_devdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m11:25:23.456837 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m11:25:23.461234 [debug] [ThreadPool]: SQL status: SELECT 4 in 0.004 seconds
+[0m11:25:23.461689 [debug] [ThreadPool]: On list_devdb: Close
+[0m11:25:23.462310 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_devdb, now list_devdb_public)
+[0m11:25:23.464222 [debug] [ThreadPool]: Using postgres connection "list_devdb_public"
+[0m11:25:23.464355 [debug] [ThreadPool]: On list_devdb_public: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "list_devdb_public"} */
+select
+      'devdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public'
+    union all
+    select
+      'devdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public'
+    union all
+    select
+      'devdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public'
+  
+[0m11:25:23.464502 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m11:25:23.468708 [debug] [ThreadPool]: SQL status: SELECT 9 in 0.004 seconds
+[0m11:25:23.469212 [debug] [ThreadPool]: On list_devdb_public: ROLLBACK
+[0m11:25:23.469384 [debug] [ThreadPool]: On list_devdb_public: Close
+[0m11:25:23.471187 [debug] [MainThread]: Using postgres connection "master"
+[0m11:25:23.471358 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m11:25:23.471496 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m11:25:23.475619 [debug] [MainThread]: SQL status: SELECT 2 in 0.004 seconds
+[0m11:25:23.476148 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff870e9d60>]}
+[0m11:25:23.476310 [debug] [MainThread]: On master: ROLLBACK
+[0m11:25:23.476484 [debug] [MainThread]: On master: COMMIT
+[0m11:25:23.476631 [debug] [MainThread]: Using postgres connection "master"
+[0m11:25:23.476767 [debug] [MainThread]: On master: COMMIT
+[0m11:25:23.476985 [debug] [MainThread]: SQL status: COMMIT in 0.000 seconds
+[0m11:25:23.477073 [debug] [MainThread]: On master: Close
+[0m11:25:23.478226 [debug] [Thread-1 (]: Began running node model.tina_pipeline.stg_customers
+[0m11:25:23.478362 [debug] [Thread-2 (]: Began running node model.tina_pipeline.stg_orders
+[0m11:25:23.478542 [info ] [Thread-1 (]: 1 of 4 START sql view model public.stg_customers ............................... [RUN]
+[0m11:25:23.478879 [info ] [Thread-2 (]: 2 of 4 START sql view model public.stg_orders .................................. [RUN]
+[0m11:25:23.479103 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_devdb_public, now model.tina_pipeline.stg_customers)
+[0m11:25:23.479320 [debug] [Thread-2 (]: Acquiring new postgres connection 'model.tina_pipeline.stg_orders'
+[0m11:25:23.479486 [debug] [Thread-1 (]: Began compiling node model.tina_pipeline.stg_customers
+[0m11:25:23.479652 [debug] [Thread-2 (]: Began compiling node model.tina_pipeline.stg_orders
+[0m11:25:23.481989 [debug] [Thread-1 (]: Writing injected SQL for node "model.tina_pipeline.stg_customers"
+[0m11:25:23.482945 [debug] [Thread-2 (]: Writing injected SQL for node "model.tina_pipeline.stg_orders"
+[0m11:25:23.483431 [debug] [Thread-1 (]: Began executing node model.tina_pipeline.stg_customers
+[0m11:25:23.490227 [debug] [Thread-2 (]: Began executing node model.tina_pipeline.stg_orders
+[0m11:25:23.494219 [debug] [Thread-1 (]: Writing runtime sql for node "model.tina_pipeline.stg_customers"
+[0m11:25:23.495428 [debug] [Thread-2 (]: Writing runtime sql for node "model.tina_pipeline.stg_orders"
+[0m11:25:23.495981 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:23.496133 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:23.496334 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+
+  create view "devdb"."public"."stg_orders__dbt_tmp"
+    
+    
+  as (
+    -- Staging: Clean orders data from raw table
+
+SELECT
+    order_id,
+    customer_id,
+    order_date,
+    total_amount,
+    _extracted_at,
+    _source_table
+FROM "devdb"."public"."mysql_orders"
+WHERE order_id IS NOT NULL
+  AND total_amount > 0
+  );
+[0m11:25:23.496513 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+
+  create view "devdb"."public"."stg_customers__dbt_tmp"
+    
+    
+  as (
+    -- Staging: Clean customer data from raw table
+-- This is a VIEW - always reflects latest data
+
+SELECT
+    customer_id,
+    TRIM(name) as name,
+    LOWER(TRIM(email)) as email,
+    TRIM(city) as city,
+    _extracted_at,
+    _source_table
+FROM "devdb"."public"."mysql_customers"
+WHERE customer_id IS NOT NULL
+  );
+[0m11:25:23.496683 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m11:25:23.496840 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m11:25:23.502772 [debug] [Thread-2 (]: SQL status: CREATE VIEW in 0.006 seconds
+[0m11:25:23.502911 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.006 seconds
+[0m11:25:23.504999 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:23.506469 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:23.506657 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+alter table "devdb"."public"."stg_orders" rename to "stg_orders__dbt_backup"
+[0m11:25:23.506859 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+alter table "devdb"."public"."stg_customers" rename to "stg_customers__dbt_backup"
+[0m11:25:23.507165 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:23.507286 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:23.533766 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:23.534854 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:23.535024 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+alter table "devdb"."public"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m11:25:23.535187 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+alter table "devdb"."public"."stg_customers__dbt_tmp" rename to "stg_customers"
+[0m11:25:23.535695 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:23.535842 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:23.540846 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: COMMIT
+[0m11:25:23.541362 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: COMMIT
+[0m11:25:23.541521 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:23.541690 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:23.541906 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: COMMIT
+[0m11:25:23.542052 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: COMMIT
+[0m11:25:23.542530 [debug] [Thread-1 (]: SQL status: COMMIT in 0.000 seconds
+[0m11:25:23.544569 [debug] [Thread-1 (]: Applying DROP to: "devdb"."public"."stg_customers__dbt_backup"
+[0m11:25:23.544697 [debug] [Thread-2 (]: SQL status: COMMIT in 0.002 seconds
+[0m11:25:23.546120 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:23.546915 [debug] [Thread-2 (]: Applying DROP to: "devdb"."public"."stg_orders__dbt_backup"
+[0m11:25:23.547072 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+drop view if exists "devdb"."public"."stg_customers__dbt_backup" cascade
+[0m11:25:23.547321 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:23.547527 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+drop view if exists "devdb"."public"."stg_orders__dbt_backup" cascade
+[0m11:25:23.548037 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.001 seconds
+[0m11:25:23.548905 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: Close
+[0m11:25:23.548994 [debug] [Thread-2 (]: SQL status: DROP VIEW in 0.001 seconds
+[0m11:25:23.549779 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: Close
+[0m11:25:23.550194 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff89e0a510>]}
+[0m11:25:23.550373 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff85283050>]}
+[0m11:25:23.550589 [info ] [Thread-1 (]: 1 of 4 OK created sql view model public.stg_customers .......................... [[32mCREATE VIEW[0m in 0.07s]
+[0m11:25:23.551018 [info ] [Thread-2 (]: 2 of 4 OK created sql view model public.stg_orders ............................. [[32mCREATE VIEW[0m in 0.07s]
+[0m11:25:23.551307 [debug] [Thread-1 (]: Finished running node model.tina_pipeline.stg_customers
+[0m11:25:23.551531 [debug] [Thread-2 (]: Finished running node model.tina_pipeline.stg_orders
+[0m11:25:23.551850 [debug] [Thread-4 (]: Began running node model.tina_pipeline.dim_customers
+[0m11:25:23.552175 [info ] [Thread-4 (]: 3 of 4 START sql incremental model public.dim_customers ........................ [RUN]
+[0m11:25:23.552327 [debug] [Thread-1 (]: Began running node model.tina_pipeline.fact_orders
+[0m11:25:23.552507 [debug] [Thread-4 (]: Acquiring new postgres connection 'model.tina_pipeline.dim_customers'
+[0m11:25:23.552700 [info ] [Thread-1 (]: 4 of 4 START sql incremental model public.fact_orders .......................... [RUN]
+[0m11:25:23.552895 [debug] [Thread-4 (]: Began compiling node model.tina_pipeline.dim_customers
+[0m11:25:23.553069 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.tina_pipeline.stg_customers, now model.tina_pipeline.fact_orders)
+[0m11:25:23.555918 [debug] [Thread-4 (]: Writing injected SQL for node "model.tina_pipeline.dim_customers"
+[0m11:25:23.556073 [debug] [Thread-1 (]: Began compiling node model.tina_pipeline.fact_orders
+[0m11:25:23.557414 [debug] [Thread-1 (]: Writing injected SQL for node "model.tina_pipeline.fact_orders"
+[0m11:25:23.557583 [debug] [Thread-4 (]: Began executing node model.tina_pipeline.dim_customers
+[0m11:25:23.569779 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:23.569969 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+    
+  
+    
+
+  create temporary table "dim_customers__dbt_tmp112523565561"
+  
+  
+    as
+  
+  (
+    -- Dimension: Customers (SCD Type 1 - Upsert)
+-- Incremental: Only process new/changed records
+
+
+
+SELECT
+    customer_id,
+    name,
+    email,
+    city,
+    _extracted_at as last_updated,
+    CURRENT_TIMESTAMP as dbt_updated_at
+FROM "devdb"."public"."stg_customers"
+
+
+    -- Only get records newer than what we have
+    WHERE _extracted_at > (SELECT MAX(last_updated) FROM "devdb"."public"."dim_customers")
+
+  );
+  
+  
+[0m11:25:23.570113 [debug] [Thread-1 (]: Began executing node model.tina_pipeline.fact_orders
+[0m11:25:23.570231 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m11:25:23.571829 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:23.572092 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+    
+  
+    
+
+  create temporary table "fact_orders__dbt_tmp112523571420"
+  
+  
+    as
+  
+  (
+    -- Fact: Orders (Append new records only)
+-- Incremental: Add new orders, don't update existing
+
+
+
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    o.total_amount,
+    o._extracted_at as loaded_at,
+    CURRENT_TIMESTAMP as dbt_updated_at
+FROM "devdb"."public"."stg_orders" o
+
+
+    WHERE o._extracted_at > (SELECT MAX(loaded_at) FROM "devdb"."public"."fact_orders")
+
+  );
+  
+  
+[0m11:25:23.572230 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m11:25:23.581051 [debug] [Thread-1 (]: SQL status: SELECT 11 in 0.009 seconds
+[0m11:25:23.581196 [debug] [Thread-4 (]: SQL status: SELECT 7 in 0.011 seconds
+[0m11:25:23.585791 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:23.586750 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:23.586936 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'fact_orders__dbt_tmp112523571420'
+        
+      order by ordinal_position
+
+  
+[0m11:25:23.587129 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'dim_customers__dbt_tmp112523565561'
+        
+      order by ordinal_position
+
+  
+[0m11:25:23.596591 [debug] [Thread-4 (]: SQL status: SELECT 6 in 0.009 seconds
+[0m11:25:23.596726 [debug] [Thread-1 (]: SQL status: SELECT 6 in 0.009 seconds
+[0m11:25:23.598414 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:23.599452 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:23.599617 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'dim_customers'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:23.599784 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'fact_orders'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:23.600832 [debug] [Thread-1 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:23.600947 [debug] [Thread-4 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:23.603722 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:23.604724 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:23.604889 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'fact_orders'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:23.605068 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'dim_customers'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:23.605959 [debug] [Thread-4 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:23.606095 [debug] [Thread-1 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:23.610709 [debug] [Thread-4 (]: Writing runtime sql for node "model.tina_pipeline.dim_customers"
+[0m11:25:23.611366 [debug] [Thread-1 (]: Writing runtime sql for node "model.tina_pipeline.fact_orders"
+[0m11:25:23.611863 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:23.612106 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      
+        
+        
+        delete from "devdb"."public"."dim_customers" as DBT_INTERNAL_DEST
+        where (customer_id) in (
+            select distinct customer_id
+            from "dim_customers__dbt_tmp112523565561" as DBT_INTERNAL_SOURCE
+        );
+
+    
+
+    insert into "devdb"."public"."dim_customers" ("customer_id", "name", "email", "city", "last_updated", "dbt_updated_at")
+    (
+        select "customer_id", "name", "email", "city", "last_updated", "dbt_updated_at"
+        from "dim_customers__dbt_tmp112523565561"
+    )
+  
+[0m11:25:23.612267 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:23.612467 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      
+        
+        
+        delete from "devdb"."public"."fact_orders" as DBT_INTERNAL_DEST
+        where (order_id) in (
+            select distinct order_id
+            from "fact_orders__dbt_tmp112523571420" as DBT_INTERNAL_SOURCE
+        );
+
+    
+
+    insert into "devdb"."public"."fact_orders" ("order_id", "customer_id", "order_date", "total_amount", "loaded_at", "dbt_updated_at")
+    (
+        select "order_id", "customer_id", "order_date", "total_amount", "loaded_at", "dbt_updated_at"
+        from "fact_orders__dbt_tmp112523571420"
+    )
+  
+[0m11:25:23.613353 [debug] [Thread-4 (]: SQL status: INSERT 0 7 in 0.001 seconds
+[0m11:25:23.613834 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: COMMIT
+[0m11:25:23.613444 [debug] [Thread-1 (]: SQL status: INSERT 0 11 in 0.001 seconds
+[0m11:25:23.613972 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:23.614526 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: COMMIT
+[0m11:25:23.614680 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: COMMIT
+[0m11:25:23.614851 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:23.615092 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: COMMIT
+[0m11:25:23.615453 [debug] [Thread-4 (]: SQL status: COMMIT in 0.000 seconds
+[0m11:25:23.615737 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: Close
+[0m11:25:23.615860 [debug] [Thread-1 (]: SQL status: COMMIT in 0.001 seconds
+[0m11:25:23.616066 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff852546b0>]}
+[0m11:25:23.616286 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: Close
+[0m11:25:23.616570 [info ] [Thread-4 (]: 3 of 4 OK created sql incremental model public.dim_customers ................... [[32mINSERT 0 7[0m in 0.06s]
+[0m11:25:23.616966 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '55388bc4-25c9-4584-a49f-01fcd8448a05', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff84090fb0>]}
+[0m11:25:23.617277 [debug] [Thread-4 (]: Finished running node model.tina_pipeline.dim_customers
+[0m11:25:23.617564 [info ] [Thread-1 (]: 4 of 4 OK created sql incremental model public.fact_orders ..................... [[32mINSERT 0 11[0m in 0.06s]
+[0m11:25:23.618214 [debug] [Thread-1 (]: Finished running node model.tina_pipeline.fact_orders
+[0m11:25:23.619020 [debug] [MainThread]: On master: COMMIT
+[0m11:25:23.619148 [debug] [MainThread]: Using postgres connection "master"
+[0m11:25:23.619270 [debug] [MainThread]: On master: COMMIT
+[0m11:25:23.619391 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m11:25:23.622369 [debug] [MainThread]: SQL status: COMMIT in 0.003 seconds
+[0m11:25:23.622489 [debug] [MainThread]: On master: Close
+[0m11:25:23.622684 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m11:25:23.622820 [debug] [MainThread]: Connection 'model.tina_pipeline.fact_orders' was properly closed.
+[0m11:25:23.622921 [debug] [MainThread]: Connection 'model.tina_pipeline.stg_orders' was properly closed.
+[0m11:25:23.623108 [debug] [MainThread]: Connection 'model.tina_pipeline.dim_customers' was properly closed.
+[0m11:25:23.623357 [info ] [MainThread]: 
+[0m11:25:23.623590 [info ] [MainThread]: Finished running 2 incremental models, 2 view models in 0 hours 0 minutes and 0.18 seconds (0.18s).
+[0m11:25:23.624013 [debug] [MainThread]: Command end result
+[0m11:25:23.634248 [debug] [MainThread]: Wrote artifact WritableManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/manifest.json
+[0m11:25:23.634902 [debug] [MainThread]: Wrote artifact SemanticManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/semantic_manifest.json
+[0m11:25:23.636897 [debug] [MainThread]: Wrote artifact RunExecutionResult to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/run_results.json
+[0m11:25:23.637041 [info ] [MainThread]: 
+[0m11:25:23.637214 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m11:25:23.637372 [info ] [MainThread]: 
+[0m11:25:23.637588 [info ] [MainThread]: Done. PASS=4 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=4
+[0m11:25:23.638208 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 0.3735342, "process_in_blocks": "0", "process_kernel_time": 0.063239, "process_mem_max_rss": "142312", "process_out_blocks": "1865", "process_user_time": 1.078078}
+[0m11:25:23.638399 [debug] [MainThread]: Command `dbt run` succeeded at 11:25:23.638357 after 0.37 seconds
+[0m11:25:23.638556 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff87959760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff883c8fe0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff840c40b0>]}
+[0m11:25:23.638712 [debug] [MainThread]: Flushing usage events
+[0m11:25:24.926240 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m11:25:37.941130 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9e033590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9d5a1940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9d9e8a10>]}
+
+
+============================== 11:25:37.942424 | 95e54f50-ca11-4e54-91a7-2d7b6525a2c7 ==============================
+[0m11:25:37.942424 [info ] [MainThread]: Running with dbt=1.11.2
+[0m11:25:37.942687 [debug] [MainThread]: running dbt with arguments {'no_print': 'None', 'cache_selected_only': 'False', 'printer_width': '80', 'quiet': 'False', 'profiles_dir': '.', 'empty': 'False', 'use_colors': 'True', 'log_format': 'default', 'partial_parse': 'True', 'use_experimental_parser': 'False', 'log_path': '/workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/logs', 'target_path': 'None', 'introspect': 'True', 'log_cache_events': 'False', 'invocation_command': 'dbt run --profiles-dir .', 'version_check': 'True', 'debug': 'False', 'write_json': 'True', 'indirect_selection': 'eager', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True', 'warn_error': 'None', 'fail_fast': 'False', 'static_parser': 'True'}
+[0m11:25:37.990511 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9d046240>]}
+[0m11:25:38.008790 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9d864f20>]}
+[0m11:25:38.009102 [info ] [MainThread]: Registered adapter: postgres=1.10.0
+[0m11:25:38.029465 [debug] [MainThread]: checksum: 3d40d8bbe1bef07db1c24822f2dbfff8bc07f2a48ed4fe2658a40653aec0b54b, vars: {}, profile: , target: , version: 1.11.2
+[0m11:25:38.062084 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m11:25:38.062249 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m11:25:38.062404 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m11:25:38.072801 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9dfd5010>]}
+[0m11:25:38.097369 [debug] [MainThread]: Wrote artifact WritableManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/manifest.json
+[0m11:25:38.098073 [debug] [MainThread]: Wrote artifact SemanticManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/semantic_manifest.json
+[0m11:25:38.102854 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9bdc6360>]}
+[0m11:25:38.103070 [info ] [MainThread]: Found 4 models, 2 sources, 464 macros
+[0m11:25:38.103244 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9c1cbd70>]}
+[0m11:25:38.104042 [info ] [MainThread]: 
+[0m11:25:38.104188 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m11:25:38.104327 [info ] [MainThread]: 
+[0m11:25:38.104591 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m11:25:38.105952 [debug] [ThreadPool]: Acquiring new postgres connection 'list_devdb'
+[0m11:25:38.117665 [debug] [ThreadPool]: Using postgres connection "list_devdb"
+[0m11:25:38.117834 [debug] [ThreadPool]: On list_devdb: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "list_devdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m11:25:38.117968 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m11:25:38.122629 [debug] [ThreadPool]: SQL status: SELECT 8 in 0.005 seconds
+[0m11:25:38.123100 [debug] [ThreadPool]: On list_devdb: Close
+[0m11:25:38.123674 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_devdb, now list_devdb_public)
+[0m11:25:38.125709 [debug] [ThreadPool]: Using postgres connection "list_devdb_public"
+[0m11:25:38.125855 [debug] [ThreadPool]: On list_devdb_public: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "list_devdb_public"} */
+select
+      'devdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public'
+    union all
+    select
+      'devdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public'
+    union all
+    select
+      'devdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public'
+  
+[0m11:25:38.126003 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m11:25:38.130421 [debug] [ThreadPool]: SQL status: SELECT 9 in 0.004 seconds
+[0m11:25:38.130942 [debug] [ThreadPool]: On list_devdb_public: ROLLBACK
+[0m11:25:38.131112 [debug] [ThreadPool]: On list_devdb_public: Close
+[0m11:25:38.132981 [debug] [MainThread]: Using postgres connection "master"
+[0m11:25:38.133147 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m11:25:38.133287 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m11:25:38.137788 [debug] [MainThread]: SQL status: SELECT 2 in 0.004 seconds
+[0m11:25:38.138321 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9bfe4710>]}
+[0m11:25:38.138494 [debug] [MainThread]: On master: ROLLBACK
+[0m11:25:38.138669 [debug] [MainThread]: On master: COMMIT
+[0m11:25:38.138785 [debug] [MainThread]: Using postgres connection "master"
+[0m11:25:38.138909 [debug] [MainThread]: On master: COMMIT
+[0m11:25:38.139139 [debug] [MainThread]: SQL status: COMMIT in 0.000 seconds
+[0m11:25:38.139237 [debug] [MainThread]: On master: Close
+[0m11:25:38.140461 [debug] [Thread-1 (]: Began running node model.tina_pipeline.stg_customers
+[0m11:25:38.140597 [debug] [Thread-2 (]: Began running node model.tina_pipeline.stg_orders
+[0m11:25:38.140784 [info ] [Thread-1 (]: 1 of 4 START sql view model public.stg_customers ............................... [RUN]
+[0m11:25:38.141116 [info ] [Thread-2 (]: 2 of 4 START sql view model public.stg_orders .................................. [RUN]
+[0m11:25:38.141333 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_devdb_public, now model.tina_pipeline.stg_customers)
+[0m11:25:38.141543 [debug] [Thread-2 (]: Acquiring new postgres connection 'model.tina_pipeline.stg_orders'
+[0m11:25:38.141705 [debug] [Thread-1 (]: Began compiling node model.tina_pipeline.stg_customers
+[0m11:25:38.141869 [debug] [Thread-2 (]: Began compiling node model.tina_pipeline.stg_orders
+[0m11:25:38.144311 [debug] [Thread-1 (]: Writing injected SQL for node "model.tina_pipeline.stg_customers"
+[0m11:25:38.145326 [debug] [Thread-2 (]: Writing injected SQL for node "model.tina_pipeline.stg_orders"
+[0m11:25:38.145855 [debug] [Thread-1 (]: Began executing node model.tina_pipeline.stg_customers
+[0m11:25:38.145977 [debug] [Thread-2 (]: Began executing node model.tina_pipeline.stg_orders
+[0m11:25:38.156879 [debug] [Thread-1 (]: Writing runtime sql for node "model.tina_pipeline.stg_customers"
+[0m11:25:38.158110 [debug] [Thread-2 (]: Writing runtime sql for node "model.tina_pipeline.stg_orders"
+[0m11:25:38.158617 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:38.158782 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:38.158909 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+
+  create view "devdb"."public"."stg_customers__dbt_tmp"
+    
+    
+  as (
+    -- Staging: Clean customer data from raw table
+-- This is a VIEW - always reflects latest data
+
+SELECT
+    customer_id,
+    TRIM(name) as name,
+    LOWER(TRIM(email)) as email,
+    TRIM(city) as city,
+    _extracted_at,
+    _source_table
+FROM "devdb"."public"."mysql_customers"
+WHERE customer_id IS NOT NULL
+  );
+[0m11:25:38.159093 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+
+  create view "devdb"."public"."stg_orders__dbt_tmp"
+    
+    
+  as (
+    -- Staging: Clean orders data from raw table
+
+SELECT
+    order_id,
+    customer_id,
+    order_date,
+    total_amount,
+    _extracted_at,
+    _source_table
+FROM "devdb"."public"."mysql_orders"
+WHERE order_id IS NOT NULL
+  AND total_amount > 0
+  );
+[0m11:25:38.159265 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m11:25:38.159416 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m11:25:38.165392 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.006 seconds
+[0m11:25:38.165534 [debug] [Thread-2 (]: SQL status: CREATE VIEW in 0.006 seconds
+[0m11:25:38.167699 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:38.169217 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:38.169385 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+alter table "devdb"."public"."stg_customers" rename to "stg_customers__dbt_backup"
+[0m11:25:38.169564 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+alter table "devdb"."public"."stg_orders" rename to "stg_orders__dbt_backup"
+[0m11:25:38.169883 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:38.169997 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:38.198718 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:38.199736 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:38.199918 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+alter table "devdb"."public"."stg_customers__dbt_tmp" rename to "stg_customers"
+[0m11:25:38.200113 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+alter table "devdb"."public"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m11:25:38.200507 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:38.200639 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.000 seconds
+[0m11:25:38.205672 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: COMMIT
+[0m11:25:38.206190 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: COMMIT
+[0m11:25:38.206354 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:38.206527 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:38.206750 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: COMMIT
+[0m11:25:38.206907 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: COMMIT
+[0m11:25:38.207455 [debug] [Thread-1 (]: SQL status: COMMIT in 0.000 seconds
+[0m11:25:38.209564 [debug] [Thread-1 (]: Applying DROP to: "devdb"."public"."stg_customers__dbt_backup"
+[0m11:25:38.209690 [debug] [Thread-2 (]: SQL status: COMMIT in 0.003 seconds
+[0m11:25:38.211167 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.stg_customers"
+[0m11:25:38.211974 [debug] [Thread-2 (]: Applying DROP to: "devdb"."public"."stg_orders__dbt_backup"
+[0m11:25:38.212143 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_customers"} */
+drop view if exists "devdb"."public"."stg_customers__dbt_backup" cascade
+[0m11:25:38.212401 [debug] [Thread-2 (]: Using postgres connection "model.tina_pipeline.stg_orders"
+[0m11:25:38.212611 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.stg_orders"} */
+drop view if exists "devdb"."public"."stg_orders__dbt_backup" cascade
+[0m11:25:38.213082 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.001 seconds
+[0m11:25:38.213925 [debug] [Thread-1 (]: On model.tina_pipeline.stg_customers: Close
+[0m11:25:38.214043 [debug] [Thread-2 (]: SQL status: DROP VIEW in 0.001 seconds
+[0m11:25:38.214622 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9fd8c410>]}
+[0m11:25:38.215080 [debug] [Thread-2 (]: On model.tina_pipeline.stg_orders: Close
+[0m11:25:38.215352 [info ] [Thread-1 (]: 1 of 4 OK created sql view model public.stg_customers .......................... [[32mCREATE VIEW[0m in 0.07s]
+[0m11:25:38.215629 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9b1efe00>]}
+[0m11:25:38.215858 [debug] [Thread-1 (]: Finished running node model.tina_pipeline.stg_customers
+[0m11:25:38.216095 [info ] [Thread-2 (]: 2 of 4 OK created sql view model public.stg_orders ............................. [[32mCREATE VIEW[0m in 0.07s]
+[0m11:25:38.216449 [debug] [Thread-4 (]: Began running node model.tina_pipeline.dim_customers
+[0m11:25:38.216671 [debug] [Thread-2 (]: Finished running node model.tina_pipeline.stg_orders
+[0m11:25:38.216891 [info ] [Thread-4 (]: 3 of 4 START sql incremental model public.dim_customers ........................ [RUN]
+[0m11:25:38.217239 [debug] [Thread-4 (]: Acquiring new postgres connection 'model.tina_pipeline.dim_customers'
+[0m11:25:38.217402 [debug] [Thread-4 (]: Began compiling node model.tina_pipeline.dim_customers
+[0m11:25:38.217543 [debug] [Thread-1 (]: Began running node model.tina_pipeline.fact_orders
+[0m11:25:38.220522 [debug] [Thread-4 (]: Writing injected SQL for node "model.tina_pipeline.dim_customers"
+[0m11:25:38.220736 [info ] [Thread-1 (]: 4 of 4 START sql incremental model public.fact_orders .......................... [RUN]
+[0m11:25:38.221127 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.tina_pipeline.stg_customers, now model.tina_pipeline.fact_orders)
+[0m11:25:38.221333 [debug] [Thread-1 (]: Began compiling node model.tina_pipeline.fact_orders
+[0m11:25:38.221441 [debug] [Thread-4 (]: Began executing node model.tina_pipeline.dim_customers
+[0m11:25:38.222546 [debug] [Thread-1 (]: Writing injected SQL for node "model.tina_pipeline.fact_orders"
+[0m11:25:38.234737 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:38.235011 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+    
+  
+    
+
+  create temporary table "dim_customers__dbt_tmp112538230499"
+  
+  
+    as
+  
+  (
+    -- Dimension: Customers (SCD Type 1 - Upsert)
+-- Incremental: Only process new/changed records
+
+
+
+SELECT
+    customer_id,
+    name,
+    email,
+    city,
+    _extracted_at as last_updated,
+    CURRENT_TIMESTAMP as dbt_updated_at
+FROM "devdb"."public"."stg_customers"
+
+
+    -- Only get records newer than what we have
+    WHERE _extracted_at > (SELECT MAX(last_updated) FROM "devdb"."public"."dim_customers")
+
+  );
+  
+  
+[0m11:25:38.235209 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m11:25:38.235339 [debug] [Thread-1 (]: Began executing node model.tina_pipeline.fact_orders
+[0m11:25:38.237637 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:38.237808 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+    
+  
+    
+
+  create temporary table "fact_orders__dbt_tmp112538237199"
+  
+  
+    as
+  
+  (
+    -- Fact: Orders (Append new records only)
+-- Incremental: Add new orders, don't update existing
+
+
+
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    o.total_amount,
+    o._extracted_at as loaded_at,
+    CURRENT_TIMESTAMP as dbt_updated_at
+FROM "devdb"."public"."stg_orders" o
+
+
+    WHERE o._extracted_at > (SELECT MAX(loaded_at) FROM "devdb"."public"."fact_orders")
+
+  );
+  
+  
+[0m11:25:38.237976 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m11:25:38.241913 [debug] [Thread-4 (]: SQL status: SELECT 9 in 0.007 seconds
+[0m11:25:38.246805 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:38.246945 [debug] [Thread-1 (]: SQL status: SELECT 15 in 0.009 seconds
+[0m11:25:38.247071 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'dim_customers__dbt_tmp112538230499'
+        
+      order by ordinal_position
+
+  
+[0m11:25:38.248186 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:38.248414 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from INFORMATION_SCHEMA.columns
+      where table_name = 'fact_orders__dbt_tmp112538237199'
+        
+      order by ordinal_position
+
+  
+[0m11:25:38.252172 [debug] [Thread-1 (]: SQL status: SELECT 6 in 0.004 seconds
+[0m11:25:38.252318 [debug] [Thread-4 (]: SQL status: SELECT 6 in 0.004 seconds
+[0m11:25:38.254016 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:38.255050 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:38.255222 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'fact_orders'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:38.255430 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'dim_customers'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:38.256475 [debug] [Thread-1 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:38.256605 [debug] [Thread-4 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:38.259427 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:38.260497 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:38.260666 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'fact_orders'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:38.260853 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      select
+          column_name,
+          data_type,
+          character_maximum_length,
+          numeric_precision,
+          numeric_scale
+
+      from "devdb".INFORMATION_SCHEMA.columns
+      where table_name = 'dim_customers'
+        
+        and table_schema = 'public'
+        
+      order by ordinal_position
+
+  
+[0m11:25:38.261670 [debug] [Thread-1 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:38.261801 [debug] [Thread-4 (]: SQL status: SELECT 6 in 0.001 seconds
+[0m11:25:38.266480 [debug] [Thread-1 (]: Writing runtime sql for node "model.tina_pipeline.fact_orders"
+[0m11:25:38.267154 [debug] [Thread-4 (]: Writing runtime sql for node "model.tina_pipeline.dim_customers"
+[0m11:25:38.267746 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:38.267893 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:38.268044 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.dim_customers"} */
+
+      
+        
+        
+        delete from "devdb"."public"."dim_customers" as DBT_INTERNAL_DEST
+        where (customer_id) in (
+            select distinct customer_id
+            from "dim_customers__dbt_tmp112538230499" as DBT_INTERNAL_SOURCE
+        );
+
+    
+
+    insert into "devdb"."public"."dim_customers" ("customer_id", "name", "email", "city", "last_updated", "dbt_updated_at")
+    (
+        select "customer_id", "name", "email", "city", "last_updated", "dbt_updated_at"
+        from "dim_customers__dbt_tmp112538230499"
+    )
+  
+[0m11:25:38.268222 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: /* {"app": "dbt", "dbt_version": "1.11.2", "profile_name": "tina_pipeline", "target_name": "dev", "node_id": "model.tina_pipeline.fact_orders"} */
+
+      
+        
+        
+        delete from "devdb"."public"."fact_orders" as DBT_INTERNAL_DEST
+        where (order_id) in (
+            select distinct order_id
+            from "fact_orders__dbt_tmp112538237199" as DBT_INTERNAL_SOURCE
+        );
+
+    
+
+    insert into "devdb"."public"."fact_orders" ("order_id", "customer_id", "order_date", "total_amount", "loaded_at", "dbt_updated_at")
+    (
+        select "order_id", "customer_id", "order_date", "total_amount", "loaded_at", "dbt_updated_at"
+        from "fact_orders__dbt_tmp112538237199"
+    )
+  
+[0m11:25:38.268779 [debug] [Thread-4 (]: SQL status: INSERT 0 9 in 0.000 seconds
+[0m11:25:38.268918 [debug] [Thread-1 (]: SQL status: INSERT 0 15 in 0.000 seconds
+[0m11:25:38.269352 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: COMMIT
+[0m11:25:38.269840 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: COMMIT
+[0m11:25:38.270022 [debug] [Thread-4 (]: Using postgres connection "model.tina_pipeline.dim_customers"
+[0m11:25:38.270195 [debug] [Thread-1 (]: Using postgres connection "model.tina_pipeline.fact_orders"
+[0m11:25:38.270346 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: COMMIT
+[0m11:25:38.270508 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: COMMIT
+[0m11:25:38.270973 [debug] [Thread-4 (]: SQL status: COMMIT in 0.000 seconds
+[0m11:25:38.271281 [debug] [Thread-4 (]: On model.tina_pipeline.dim_customers: Close
+[0m11:25:38.271400 [debug] [Thread-1 (]: SQL status: COMMIT in 0.001 seconds
+[0m11:25:38.271610 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9b137260>]}
+[0m11:25:38.271926 [debug] [Thread-1 (]: On model.tina_pipeline.fact_orders: Close
+[0m11:25:38.272296 [info ] [Thread-4 (]: 3 of 4 OK created sql incremental model public.dim_customers ................... [[32mINSERT 0 9[0m in 0.05s]
+[0m11:25:38.272695 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '95e54f50-ca11-4e54-91a7-2d7b6525a2c7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9b13bd10>]}
+[0m11:25:38.273027 [debug] [Thread-4 (]: Finished running node model.tina_pipeline.dim_customers
+[0m11:25:38.273351 [info ] [Thread-1 (]: 4 of 4 OK created sql incremental model public.fact_orders ..................... [[32mINSERT 0 15[0m in 0.05s]
+[0m11:25:38.273908 [debug] [Thread-1 (]: Finished running node model.tina_pipeline.fact_orders
+[0m11:25:38.274536 [debug] [MainThread]: On master: COMMIT
+[0m11:25:38.274665 [debug] [MainThread]: Using postgres connection "master"
+[0m11:25:38.274789 [debug] [MainThread]: On master: COMMIT
+[0m11:25:38.274915 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m11:25:38.278146 [debug] [MainThread]: SQL status: COMMIT in 0.003 seconds
+[0m11:25:38.278251 [debug] [MainThread]: On master: Close
+[0m11:25:38.278448 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m11:25:38.278567 [debug] [MainThread]: Connection 'model.tina_pipeline.fact_orders' was properly closed.
+[0m11:25:38.278680 [debug] [MainThread]: Connection 'model.tina_pipeline.stg_orders' was properly closed.
+[0m11:25:38.278775 [debug] [MainThread]: Connection 'model.tina_pipeline.dim_customers' was properly closed.
+[0m11:25:38.278937 [info ] [MainThread]: 
+[0m11:25:38.279092 [info ] [MainThread]: Finished running 2 incremental models, 2 view models in 0 hours 0 minutes and 0.17 seconds (0.17s).
+[0m11:25:38.279801 [debug] [MainThread]: Command end result
+[0m11:25:38.290169 [debug] [MainThread]: Wrote artifact WritableManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/manifest.json
+[0m11:25:38.290898 [debug] [MainThread]: Wrote artifact SemanticManifest to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/semantic_manifest.json
+[0m11:25:38.292949 [debug] [MainThread]: Wrote artifact RunExecutionResult to /workspace/tina-data-engineer/workspace/data_pipeline/dbt_project/target/run_results.json
+[0m11:25:38.293118 [info ] [MainThread]: 
+[0m11:25:38.293272 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m11:25:38.293417 [info ] [MainThread]: 
+[0m11:25:38.293586 [info ] [MainThread]: Done. PASS=4 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=4
+[0m11:25:38.294237 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 0.37180355, "process_in_blocks": "0", "process_kernel_time": 0.067973, "process_mem_max_rss": "142264", "process_out_blocks": "1865", "process_user_time": 1.049588}
+[0m11:25:38.294423 [debug] [MainThread]: Command `dbt run` succeeded at 11:25:38.294392 after 0.37 seconds
+[0m11:25:38.294586 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9d450aa0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff7bf32f30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff7bf32360>]}
+[0m11:25:38.294756 [debug] [MainThread]: Flushing usage events
+[0m11:25:39.382043 [debug] [MainThread]: An error was encountered while trying to flush usage events

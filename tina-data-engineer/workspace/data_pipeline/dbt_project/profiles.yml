@@ -1,0 +1,12 @@
+tina_pipeline:
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      port: 5432
+      user: devuser
+      password: devpassword
+      dbname: devdb
+      schema: public
+      threads: 4
+  target: dev
