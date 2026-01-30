@@ -1,0 +1,10 @@
+id,name,age,city,salary
+1,Alice,28,Sydney,75000
+2,Bob,35,Melbourne,82000
+3,Charlie,42,Brisbane,91000
+4,Diana,31,Perth,78000
+5,Eve,26,Adelaide,68000
+6,Frank,39,Sydney,95000
+7,Grace,33,Melbourne,84000
+8,Henry,45,Brisbane,102000
+9,Ivy,29,Perth,72000

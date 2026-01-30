@@ -1,0 +1,9 @@
+{
+  "total_employees": 4,
+  "average_salary": 79250.0,
+  "departments": [
+    "Marketing",
+    "Sales",
+    "Engineering"
+  ]
+}

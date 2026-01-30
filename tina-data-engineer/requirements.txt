@@ -1,12 +1,40 @@
+# Core
 jupyter
 pandas
 numpy
 scikit-learn
 matplotlib
 seaborn
+
+# Database connectors
 mysql-connector-python
 psycopg2-binary
+sqlalchemy
+
+# AWS/S3
 boto3
-pyspark
+
+# Apache Iceberg
+pyiceberg[s3fs,pyarrow,duckdb]
+
+# Query engine
+duckdb
+
+# Data processing
+pyarrow
+
+# dbt
 dbt-core
 dbt-postgres
+
+# Spark
+pyspark
+
+# Utilities
+pyyaml
+python-dotenv
+requests
+
+# Testing
+pytest
+great-expectations

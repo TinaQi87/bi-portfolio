@@ -1,0 +1,6 @@
+name,department,salary,hire_date,tenure_years,salary_level,processed_at
+Alice Smith,Engineering,85000,2022-03-15,3.9,High,2026-01-23 01:36:16.447580
+Bob Johnson,Marketing,72000,2021-06-01,4.6,Medium,2026-01-23 01:36:16.447580
+Carol Williams,Engineering,92000,2020-04-01,5.8,High,2026-01-23 01:36:16.447580
+David Brown,Sales,68000,2023-01-10,3.0,Low,2026-01-23 01:36:16.447580
+Eve Davis,Marketing,78000,2022-09-01,3.4,Medium,2026-01-23 01:36:16.447580
