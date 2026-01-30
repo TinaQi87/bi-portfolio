@@ -29,3 +29,4 @@ terraform.rc
 # Terraform's dependency lock is meant to be checked in
 !**/*.terraform.lock.hcl
 tina-data-engineer/data/
+tina-data-engineer/workspace/edu-datawarehouse-project/data/raw/oulad/studentVle.csv
