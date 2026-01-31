@@ -568,35 +568,38 @@ The catalog is like a "table of contents" for your Iceberg tables. It tracks:
 ```bash
 cat > /workspace/tina-data-engineer/workspace/edu-datawarehouse-project/scripts/init_iceberg_catalog.py << 'EOF'
 """
+"""
 Initialize Iceberg Catalog for Education Data Lakehouse
-
-This script sets up the SQLite-based Iceberg catalog and creates
-the namespace (schema) for our education data.
 """
 
 from pyiceberg.catalog.sql import SqlCatalog
 import os
+import yaml
+
+# Load configuration
+CONFIG_PATH = "/workspace/tina-data-engineer/workspace/edu-datawarehouse-project/config/database.yaml"
+with open(CONFIG_PATH) as f:
+    config = yaml.safe_load(f)
 
 # Catalog configuration
 CATALOG_PATH = "/workspace/tina-data-engineer/workspace/edu-datawarehouse-project/data/catalog"
 CATALOG_DB = f"{CATALOG_PATH}/iceberg_catalog.db"
-
-# Ensure catalog directory exists
 os.makedirs(CATALOG_PATH, exist_ok=True)
 
-# Initialize catalog
+# Initialize catalog with config from YAML
+minio_config = config['minio']
 catalog = SqlCatalog(
     "edu_catalog",
     **{
         "uri": f"sqlite:///{CATALOG_DB}",
-        "s3.endpoint": "http://minio:9000",
-        "s3.access-key-id": "minioadmin",
-        "s3.secret-access-key": "minioadmin",
-        "warehouse": "s3://edu-silver/warehouse",
+        "s3.endpoint": minio_config['endpoint'],
+        "s3.access-key-id": minio_config['access_key'],
+        "s3.secret-access-key": minio_config['secret_key'],
+        "warehouse": f"s3://{minio_config['buckets']['silver']}/warehouse",
     }
 )
 
-# Create namespace (like a database schema)
+# Create namespace
 try:
     catalog.create_namespace("education")
     print("Created namespace: education")
@@ -606,12 +609,11 @@ except Exception as e:
     else:
         raise
 
-# List namespaces to verify
 print("\nAvailable namespaces:")
 for ns in catalog.list_namespaces():
     print(f"  - {ns}")
 
-print("\nIceberg catalog initialized successfully!")
+print(f"\nIceberg catalog initialized successfully!")
 print(f"Catalog location: {CATALOG_DB}")
 EOF
 ```
@@ -712,16 +714,17 @@ def get_iceberg_catalog():
     """Get PyIceberg catalog instance."""
     from pyiceberg.catalog.sql import SqlCatalog
     
+    config = load_config()['minio']
     catalog_path = "/workspace/tina-data-engineer/workspace/edu-datawarehouse-project/data/catalog/iceberg_catalog.db"
     
     return SqlCatalog(
         "edu_catalog",
         **{
             "uri": f"sqlite:///{catalog_path}",
-            "s3.endpoint": "http://minio:9000",
-            "s3.access-key-id": "minioadmin",
-            "s3.secret-access-key": "minioadmin",
-            "warehouse": "s3://edu-silver/warehouse",
+            "s3.endpoint": config['endpoint'],
+            "s3.access-key-id": config['access_key'],
+            "s3.secret-access-key": config['secret_key'],
+            "warehouse": f"s3://{config['buckets']['silver']}/warehouse",
         }
     )
 

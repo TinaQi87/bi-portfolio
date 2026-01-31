@@ -1,0 +1,26 @@
+# Pipeline Configuration
+
+pipeline:
+  name: edu-datawarehouse
+  version: 1.0.0
+
+extraction:
+  batch_size: 10000
+  date_format: "%Y-%m-%d"
+
+bronze:
+  partition_by: extraction_date
+  file_format: parquet
+
+silver:
+  table_format: iceberg
+  catalog_name: edu_catalog
+  catalog_path: /workspace/tina-data-engineer/workspace/edu-datawarehouse-project/data/catalog
+
+quality:
+  fail_on_error: false
+  quarantine_bad_records: true
+
+logging:
+  level: INFO
+  file: /workspace/tina-data-engineer/workspace/edu-datawarehouse-project/logs/pipeline.log

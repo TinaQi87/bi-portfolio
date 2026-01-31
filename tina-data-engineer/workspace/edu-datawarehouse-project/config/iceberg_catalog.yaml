@@ -1,0 +1,18 @@
+# Iceberg Catalog Configuration
+# Using SQLite catalog for local development
+# In production, you'd use AWS Glue, Hive Metastore, or Nessie
+
+catalog:
+  name: edu_catalog
+  type: sqlite
+  uri: sqlite:////workspace/tina-data-engineer/workspace/edu-datawarehouse-project/data/catalog/iceberg_catalog.db
+
+storage:
+  type: s3
+  endpoint: http://minio:9000
+  access_key: minioadmin
+  secret_key: minioadmin
+  warehouse: s3://edu-silver/warehouse
+
+namespaces:
+  - education
